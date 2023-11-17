@@ -6,15 +6,20 @@ import {
   RangeSliderThumb,
   RangeSliderTrack,
 } from "@chakra-ui/react"
-import { FunctionComponent, useMemo, useState } from "react"
+import { FunctionComponent, useCallback, useMemo, useState } from "react"
 import { useHotkeys } from "react-hotkeys-hook"
-import { FaVolumeHigh, FaVolumeLow, FaVolumeOff } from "react-icons/fa6"
+import {
+  FaVolumeHigh,
+  FaVolumeLow,
+  FaVolumeOff,
+  FaVolumeXmark,
+} from "react-icons/fa6"
 
 interface VolumeTrackProps {}
 
 export const VolumeTrack: FunctionComponent<VolumeTrackProps> = (_props) => {
   const [volume, setVolume] = useState(0)
-
+  const [isMuted, setIsMuted] = useState(false)
   const volumeIncrement = 5
 
   useHotkeys(
@@ -37,13 +42,24 @@ export const VolumeTrack: FunctionComponent<VolumeTrackProps> = (_props) => {
     },
     []
   )
-  useHotkeys("m", () => console.log("mute"), [])
+  useHotkeys(
+    "m",
+    () => {
+      setIsMuted((prev) => !prev)
+    },
+    []
+  )
+
+  const onClickVolumeRange = useCallback(([value]: number[]) => {
+    setVolume(value)
+  }, [])
 
   const renderVolumeIcon = useMemo(() => {
+    if (isMuted) return <FaVolumeXmark />
     if (volume === 0) return <FaVolumeOff />
     if (volume > 50) return <FaVolumeHigh />
     return <FaVolumeLow />
-  }, [volume])
+  }, [volume, isMuted])
 
   return (
     <Flex alignItems={"center"} gap=".5rem">
@@ -58,11 +74,16 @@ export const VolumeTrack: FunctionComponent<VolumeTrackProps> = (_props) => {
         icon={renderVolumeIcon}
       />
 
-      <RangeSlider w="10rem" aria-label={["min", "max"]} value={[volume]}>
+      <RangeSlider
+        w="10rem"
+        aria-label={["min", "max"]}
+        value={[volume]}
+        onChange={onClickVolumeRange}
+      >
         <RangeSliderTrack h="0.35rem">
-          <RangeSliderFilledTrack h="0.5rem" bg="purple.500" />
+          {!isMuted && <RangeSliderFilledTrack h="0.5rem" bg="purple.500" />}
         </RangeSliderTrack>
-        <RangeSliderThumb index={0} />
+        {!isMuted && <RangeSliderThumb index={0} />}
       </RangeSlider>
     </Flex>
   )

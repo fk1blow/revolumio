@@ -71,7 +71,7 @@ export const MediaSources: FunctionComponent<MediaSourcesProps> = (_props) => {
           variant="ghost"
           border="none"
           fontSize={"1rem"}
-          mt={"2rem"}
+          mt={"3rem"}
           size="lg"
           icon={<FaPlus />}
         />

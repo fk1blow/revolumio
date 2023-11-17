@@ -1,32 +1,46 @@
 import { ColorModeScript, Grid, GridItem } from "@chakra-ui/react"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import "./App.css"
-import { Player } from "./features/player/Player"
-import { Sidebar } from "./features/sidebar/Sidebar"
+import { Dashboard } from "./pages/dashboard/Dashboard"
+import { Player } from "./ui/player/Player"
+import { Sidebar } from "./ui/sidebar/Sidebar"
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Dashboard />,
+  },
+])
+
+const queryClient = new QueryClient()
 
 function App() {
   return (
     <>
       <ColorModeScript />
-      <Grid
-        h="100vh"
-        w="100vw"
-        templateRows="3rem 1fr 6.25rem"
-        templateColumns="6.25rem 1fr"
-      >
-        <GridItem rowSpan={1} colSpan={5} maxH="3rem" />
+      <QueryClientProvider client={queryClient}>
+        <Grid
+          h="100vh"
+          w="100vw"
+          templateRows="3rem 1fr 6.25rem"
+          templateColumns="6.25rem 1fr"
+        >
+          <GridItem rowSpan={1} colSpan={5} maxH="3rem" />
 
-        <GridItem as="section" rowSpan={1} colSpan={1}>
-          <Sidebar />
-        </GridItem>
+          <GridItem as="section" rowSpan={1} colSpan={1}>
+            <Sidebar />
+          </GridItem>
 
-        <GridItem as="main" colSpan={4}>
-          main content
-        </GridItem>
+          <GridItem as="main" colSpan={4} pl="6.25rem">
+            <RouterProvider router={router} />
+          </GridItem>
 
-        <GridItem as="footer" colSpan={5}>
-          <Player />
-        </GridItem>
-      </Grid>
+          <GridItem as="footer" colSpan={5}>
+            <Player />
+          </GridItem>
+        </Grid>
+      </QueryClientProvider>
     </>
   )
 }

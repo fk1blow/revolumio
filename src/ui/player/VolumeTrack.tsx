@@ -66,12 +66,12 @@ export const VolumeTrack: FunctionComponent<VolumeTrackProps> = (_props) => {
   }, [volume, isMuted])
 
   return (
-    <Flex alignItems={"center"} gap=".5rem">
+    <Flex alignItems={"center"} gap="2rem">
       <IconButton
         onClick={() => setIsMuted((prev) => !prev)}
         aria-label="Volume"
         border="none"
-        fontSize={"1rem"}
+        fontSize={"1.25rem"}
         maxH="3rem"
         maxW="3rem"
         variant="ghost"

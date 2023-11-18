@@ -2,9 +2,9 @@ import { Box } from "@chakra-ui/react"
 import { FunctionComponent } from "react"
 import { VolumeTrack } from "./VolumeTrack"
 
-interface OtherControlsProps {}
+interface VolumeControlsProps {}
 
-export const OtherControls: FunctionComponent<OtherControlsProps> = (
+export const VolumeControls: FunctionComponent<VolumeControlsProps> = (
   _props
 ) => {
   return (

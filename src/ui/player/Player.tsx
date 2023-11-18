@@ -1,9 +1,8 @@
 import { Flex } from "@chakra-ui/react"
 import { FunctionComponent, useEffect } from "react"
 import { io } from "../../lib/socket.io/client"
-import { OtherControls } from "./OtherControls"
-import { PlaybackControls } from "./PlaybackControls"
 import { PlaybackMeta } from "./PlaybackMeta"
+import { PlayerControls } from "./PlayerControls"
 
 interface PlayerProps {}
 
@@ -29,8 +28,7 @@ export const Player: FunctionComponent<PlayerProps> = (_props) => {
   return (
     <Flex w="100%" h="full" justify={"space-between"} gap="4rem">
       <PlaybackMeta />
-      <PlaybackControls />
-      <OtherControls />
+      <PlayerControls />
     </Flex>
   )
 }

@@ -11,7 +11,12 @@ export const PlaybackTrack: FunctionComponent<PlaybackTrackProps> = (
   _props
 ) => {
   return (
-    <RangeSlider w="100%" aria-label={["min", "max"]} value={[0]}>
+    <RangeSlider
+      maxW={"800px"}
+      w="100%"
+      aria-label={["min", "max"]}
+      value={[0]}
+    >
       <RangeSliderTrack h="0.35rem" bg="purple.500">
         <RangeSliderFilledTrack h="0.5rem" bg="purple.500" />
       </RangeSliderTrack>

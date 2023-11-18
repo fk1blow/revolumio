@@ -9,14 +9,22 @@ export const PlaybackControls: FunctionComponent<PlaybackControlsProps> = (
   _props
 ) => {
   return (
-    <Flex flexDir={"column"} w={"100%"} alignItems={"center"} gap="1.5rem">
+    <Flex
+      maxW="50%"
+      flex="2"
+      display={"flex"}
+      flexDir={"column"}
+      w={"100%"}
+      h={"full"}
+      alignItems={"center"}
+      pt="1.25rem"
+      gap="2rem"
+    >
       <IconButton
         aria-label="Play/Pause"
         border="none"
         colorScheme="gray"
-        fontSize={"1.2rem"}
-        maxH="3rem"
-        maxW="3rem"
+        fontSize={"1.6rem"}
         size="lg"
         rounded={"full"}
         icon={<FaPlay />}

@@ -23,7 +23,7 @@ function App() {
         <Grid
           h="100vh"
           w="100vw"
-          templateRows="3rem 1fr 6.25rem"
+          templateRows="3rem 1fr 8rem"
           templateColumns="6.25rem 1fr"
         >
           <GridItem rowSpan={1} colSpan={5} maxH="3rem" />
@@ -32,11 +32,12 @@ function App() {
             <Sidebar />
           </GridItem>
 
-          <GridItem as="main" colSpan={4} pl="6.25rem">
+          <GridItem as="main" colSpan={4} pl="3rem" display={"flex"} minH={0}>
+            {/* pl="6.25rem" */}
             <RouterProvider router={router} />
           </GridItem>
 
-          <GridItem as="footer" colSpan={5}>
+          <GridItem as="footer" colSpan={5} bg="#272741">
             <Player />
           </GridItem>
         </Grid>

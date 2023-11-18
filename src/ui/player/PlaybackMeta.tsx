@@ -6,7 +6,13 @@ interface PlaybackMetaProps {}
 
 export const PlaybackMeta: FunctionComponent<PlaybackMetaProps> = (_props) => {
   return (
-    <Flex gap="1rem">
+    <Flex
+      gap="1rem"
+      align={"center"}
+      justifyContent={"center"}
+      h={"full"}
+      p={"1.5rem"}
+    >
       <Image src={spaceStation} h="100%" />
 
       <Flex

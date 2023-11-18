@@ -26,7 +26,8 @@ export const MediaSources: FunctionComponent<MediaSourcesProps> = (_props) => {
           aria-label="Spotify"
           variant="ghost"
           border="none"
-          fontSize={"1.5rem"}
+          fontSize={"1.5625rem"}
+          color={"gray.300"}
           size="lg"
           icon={<FaSpotify />}
         />
@@ -37,7 +38,8 @@ export const MediaSources: FunctionComponent<MediaSourcesProps> = (_props) => {
           aria-label="Youtube"
           variant="ghost"
           border="none"
-          fontSize={"1.5rem"}
+          fontSize={"1.5625rem"}
+          color={"gray.300"}
           size="lg"
           icon={<FaYoutube />}
         />
@@ -48,7 +50,8 @@ export const MediaSources: FunctionComponent<MediaSourcesProps> = (_props) => {
           aria-label="Radio"
           variant="ghost"
           border="none"
-          fontSize={"1.5rem"}
+          fontSize={"1.5625rem"}
+          color={"gray.300"}
           size="lg"
           icon={<FaRadio />}
         />
@@ -59,7 +62,8 @@ export const MediaSources: FunctionComponent<MediaSourcesProps> = (_props) => {
           aria-label="Soundcloud"
           variant="ghost"
           border="none"
-          fontSize={"1.5rem"}
+          color={"gray.300"}
+          fontSize={"1.5625rem"}
           size="lg"
           icon={<FaSoundcloud />}
         />
@@ -70,7 +74,8 @@ export const MediaSources: FunctionComponent<MediaSourcesProps> = (_props) => {
           aria-label="Home"
           variant="ghost"
           border="none"
-          fontSize={"1rem"}
+          fontSize={"1.5625rem"}
+          color={"gray.300"}
           mt={"3rem"}
           size="lg"
           icon={<FaPlus />}

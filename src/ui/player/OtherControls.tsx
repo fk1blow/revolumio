@@ -8,7 +8,7 @@ export const OtherControls: FunctionComponent<OtherControlsProps> = (
   _props
 ) => {
   return (
-    <Box h="3rem" pr={"2rem"}>
+    <Box h="full" p={"1.5rem"}>
       <VolumeTrack />
     </Box>
   )

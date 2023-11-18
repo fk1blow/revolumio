@@ -25,13 +25,12 @@ export const VolumeTrack: FunctionComponent<VolumeTrackProps> = (_props) => {
   useHotkeys(
     "arrow up",
     () => {
-      setVolume((prev) => {
-        if (prev >= 100) return 100
-        return prev + volumeIncrement
-      })
+      if (isMuted) setIsMuted(false)
+      setVolume((prev) => (prev >= 100 ? 100 : prev + volumeIncrement))
     },
-    []
+    [isMuted]
   )
+
   useHotkeys(
     "arrow down",
     () => {
@@ -42,6 +41,7 @@ export const VolumeTrack: FunctionComponent<VolumeTrackProps> = (_props) => {
     },
     []
   )
+
   useHotkeys(
     "m",
     () => {
@@ -50,9 +50,13 @@ export const VolumeTrack: FunctionComponent<VolumeTrackProps> = (_props) => {
     []
   )
 
-  const onClickVolumeRange = useCallback(([value]: number[]) => {
-    setVolume(value)
-  }, [])
+  const onClickVolumeRange = useCallback(
+    ([value]: number[]) => {
+      if (isMuted && value > 0) setIsMuted(false)
+      setVolume(value)
+    },
+    [isMuted]
+  )
 
   const renderVolumeIcon = useMemo(() => {
     if (isMuted) return <FaVolumeXmark />
@@ -64,6 +68,7 @@ export const VolumeTrack: FunctionComponent<VolumeTrackProps> = (_props) => {
   return (
     <Flex alignItems={"center"} gap=".5rem">
       <IconButton
+        onClick={() => setIsMuted((prev) => !prev)}
         aria-label="Volume"
         border="none"
         fontSize={"1rem"}
@@ -77,13 +82,14 @@ export const VolumeTrack: FunctionComponent<VolumeTrackProps> = (_props) => {
       <RangeSlider
         w="10rem"
         aria-label={["min", "max"]}
-        value={[volume]}
+        focusThumbOnChange={false}
+        value={[isMuted ? 0 : volume]}
         onChange={onClickVolumeRange}
       >
         <RangeSliderTrack h="0.35rem">
           {!isMuted && <RangeSliderFilledTrack h="0.5rem" bg="purple.500" />}
         </RangeSliderTrack>
-        {!isMuted && <RangeSliderThumb index={0} />}
+        <RangeSliderThumb h="1rem" w={"1rem"} index={0} tabIndex={-1} />
       </RangeSlider>
     </Flex>
   )

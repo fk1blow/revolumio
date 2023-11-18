@@ -15,6 +15,7 @@ export const Sidebar: FunctionComponent<SidebarProps> = (_props) => {
         alignItems="center"
         flexDirection="column"
         listStyleType={"none"}
+        mt="-.25rem"
         mb=".75rem"
       >
         <li>
@@ -23,6 +24,7 @@ export const Sidebar: FunctionComponent<SidebarProps> = (_props) => {
             variant="ghost"
             border="none"
             fontSize={"1.5rem"}
+            color={"gray.300"}
             size="lg"
             icon={<FaStar />}
           />

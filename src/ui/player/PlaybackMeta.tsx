@@ -13,7 +13,7 @@ export const PlaybackMeta: FunctionComponent<PlaybackMetaProps> = (_props) => {
       h={"full"}
       p={"1.5rem"}
     >
-      <Image src={spaceStation} h="100%" />
+      <Image rounded={".5rem"} src={spaceStation} h="100%" />
 
       <Flex
         flexDirection={"column"}

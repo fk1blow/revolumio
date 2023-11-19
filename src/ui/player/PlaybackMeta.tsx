@@ -1,51 +1,61 @@
-import { Button, Flex, Image } from "@chakra-ui/react"
-import { FunctionComponent } from "react"
-import spaceStation from "../../assets/spacestationsoma.png"
+import { Button, Flex, Image, Text } from '@chakra-ui/react'
+import { FunctionComponent } from 'react'
+import { usePlayerStore } from '../../stores/player/player.store'
 
 interface PlaybackMetaProps {}
 
 export const PlaybackMeta: FunctionComponent<PlaybackMetaProps> = (_props) => {
+  const playerState = usePlayerStore((state) => state.playerState)
+
   return (
     <Flex
       gap="1rem"
-      align={"center"}
-      justifyContent={"center"}
-      h={"full"}
-      p={"1.5rem"}
+      align={'center'}
+      justifyContent={'center'}
+      h={'full'}
+      p={'1.5rem'}
     >
-      <Image rounded={".5rem"} src={spaceStation} h="100%" />
+      <Image
+        rounded={'.5rem'}
+        src={playerState?.albumart ?? 'https://via.placeholder.com/150'}
+        h="100%"
+      />
 
       <Flex
-        flexDirection={"column"}
-        justify={"center"}
-        align={"start"}
+        flexDirection={'column'}
+        justify={'center'}
+        align={'start'}
         gap=".2rem"
       >
         <Button
-          textAlign={"left"}
+          textAlign={'left'}
           padding="0"
           display="inline"
           border="none"
-          width={"inherit"}
+          width={'inherit'}
           variant="link"
-          fontSize="sm"
+          fontSize="md"
         >
-          Soma FM
+          {playerState?.artist}
         </Button>
 
         <Button
-          textAlign={"left"}
+          textAlign={'left'}
           padding="0"
           display="inline"
           border="none"
-          width={"inherit"}
+          width={'inherit'}
           color="gray.400"
           variant="link"
-          fontSize="small"
-          fontWeight={"normal"}
+          fontSize="sm"
+          fontWeight={'normal'}
         >
-          Space Station Soma
+          {playerState?.title}
         </Button>
+
+        <Text fontSize={'12px'} color={'gray.500'} mt={'.75rem'}>
+          {playerState?.album}
+        </Text>
       </Flex>
     </Flex>
   )

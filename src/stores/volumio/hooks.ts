@@ -6,11 +6,11 @@ import {
 } from '../../lib/volumio/command'
 import { VolumioPlayerStateSchema } from '../../lib/volumio/schemas/player-state-schema'
 import { useFavoritesListStore } from '../favorites/favorites.store'
-import { useVolumioStore } from './volumio.store'
+import { usePlayerStore } from '../player/player.store'
 
 export const useVolumioInitialization = () => {
-  const updatePlayerState = useVolumioStore((state) => state.updatePlayerState)
   const updateFavorites = useFavoritesListStore((state) => state.updateLists)
+  const updatePlayerState = usePlayerStore((state) => state.updatePlayerState)
 
   useEffect(() => {
     onReceiveMessage('pushState', (data) => {

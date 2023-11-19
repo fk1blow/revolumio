@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import "./App.css"
 import { Dashboard } from "./pages/dashboard/Dashboard"
+import { useVolumioInitialization } from "./stores/volumio/hooks"
 import { Player } from "./ui/player/Player"
 import { Sidebar } from "./ui/sidebar/Sidebar"
 
@@ -16,9 +17,12 @@ const router = createBrowserRouter([
 const queryClient = new QueryClient()
 
 function App() {
+  useVolumioInitialization()
+
   return (
     <>
       <ColorModeScript />
+
       <QueryClientProvider client={queryClient}>
         <Grid
           h="100vh"
@@ -32,8 +36,7 @@ function App() {
             <Sidebar />
           </GridItem>
 
-          <GridItem as="main" colSpan={4} pl="3rem" display={"flex"} minH={0}>
-            {/* pl="6.25rem" */}
+          <GridItem as="main" colSpan={4} pl="4rem" display={"flex"} minH={0}>
             <RouterProvider router={router} />
           </GridItem>
 

@@ -1,8 +1,7 @@
-# revolumioo
+# revolumio
 
-Web client for the [volumio OS](https://volumio.com/en/get-started/)
+(UX experiment)Web client for the [volumio OS](https://volumio.com/en/get-started/)
 ![alt text](https://github.com/fk1blow/revolumio/blob/main/src/assets/screenshot.png)
-
 
 ## disclaimer
 

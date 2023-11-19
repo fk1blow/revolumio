@@ -5,11 +5,11 @@ import {
   fetchStateCommand,
 } from '../../lib/volumio/command'
 import { VolumioPlayerStateSchema } from '../../lib/volumio/schemas/player-state-schema'
-import { useFavoritesListStore } from '../favorites/favorites.store'
+import { useFavoriteItemsStore } from '../favorites/favorites.store'
 import { usePlayerStore } from '../player/player.store'
 
 export const useVolumioInitialization = () => {
-  const updateFavorites = useFavoritesListStore((state) => state.updateLists)
+  const updateFavorites = useFavoriteItemsStore((state) => state.updateLists)
   const updatePlayerState = usePlayerStore((state) => state.updatePlayerState)
 
   useEffect(() => {

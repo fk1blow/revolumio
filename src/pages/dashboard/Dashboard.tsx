@@ -1,7 +1,7 @@
 import { Box, Flex } from '@chakra-ui/react'
 import { FunctionComponent, useMemo } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
-import { useFavoritesListStore } from '../../stores/favorites/favorites.store'
+import { useFavoriteItemsStore } from '../../stores/favorites/favorites.store'
 import { FavoriteItem } from '../../stores/favorites/types'
 import { Section } from './Section'
 
@@ -10,7 +10,7 @@ interface DashboardProps {}
 export const Dashboard: FunctionComponent<DashboardProps> = (_props) => {
   // TODO should... have another way of getting the sources(available)
   const serviceSources = ['youtube2', 'soundcloud']
-  const favoritesLists = useFavoritesListStore((state) => state.lists)
+  const favoritesLists = useFavoriteItemsStore((state) => state.lists)
   // console.log('favoritesLists: ', favoritesLists)
 
   const sectionsList = useMemo(() => {

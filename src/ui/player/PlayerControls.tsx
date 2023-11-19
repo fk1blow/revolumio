@@ -1,23 +1,26 @@
-import { Flex, IconButton } from "@chakra-ui/react"
-import { FunctionComponent } from "react"
-import { FaPlay } from "react-icons/fa6"
-import { PlaybackTrack } from "./PlaybackTrack"
-import { VolumeControls } from "./VolumeControls"
+import { Flex, IconButton } from '@chakra-ui/react'
+import { FunctionComponent } from 'react'
+import { FaPause, FaPlay } from 'react-icons/fa6'
+import { usePlayerStore } from '../../stores/player/player.store'
+import { PlaybackTrack } from './PlaybackTrack'
+import { VolumeControls } from './VolumeControls'
 
 interface PlayerControlsProps {}
 
 export const PlayerControls: FunctionComponent<PlayerControlsProps> = (
   _props
 ) => {
+  const playerState = usePlayerStore((state) => state.playerState)
+
   return (
     <>
       <Flex
         flex="2"
-        display={"flex"}
-        flexDir={"column"}
-        w={"100%"}
-        h={"full"}
-        alignItems={"center"}
+        display={'flex'}
+        flexDir={'column'}
+        w={'100%'}
+        h={'full'}
+        alignItems={'center'}
         pt="1.25rem"
         gap="2rem"
       >
@@ -25,10 +28,10 @@ export const PlayerControls: FunctionComponent<PlayerControlsProps> = (
           aria-label="Play/Pause"
           border="none"
           colorScheme="gray"
-          fontSize={"1.6rem"}
+          fontSize={'1.6rem'}
           size="lg"
-          rounded={"full"}
-          icon={<FaPlay />}
+          rounded={'full'}
+          icon={playerState?.status === 'play' ? <FaPause /> : <FaPlay />}
         />
 
         <PlaybackTrack />

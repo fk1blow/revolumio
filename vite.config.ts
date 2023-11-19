@@ -10,7 +10,7 @@ export default defineConfig({
       inject: {
         data: {
           injectScript:
-            '<script src="//unpkg.com/socket.io-client@1.7.4/dist/socket.io.js"></script>',
+            '<script rel="preload" src="//unpkg.com/socket.io-client@1.7.4/dist/socket.io.js"></script>',
         },
       },
     }),

@@ -1,4 +1,4 @@
-import { ApiResponseMap, VolumioApiCommand } from './command'
+import { ApiResponseMap, VolumioApiCommand } from './commands/command'
 import { volumioConnection } from './socket/connection'
 
 export function onReceiveMessage<K extends keyof ApiResponseMap>(

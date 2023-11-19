@@ -3,7 +3,7 @@ import { onReceiveMessage, sendCommand } from '../../lib/volumio/api'
 import {
   fetchFavoritesCommand,
   fetchStateCommand,
-} from '../../lib/volumio/command'
+} from '../../lib/volumio/commands/command'
 import { VolumioPlayerStateSchema } from '../../lib/volumio/schemas/player-state-schema'
 import { useFavoriteItemsStore } from '../favorites/favorites.store'
 import { usePlayerStore } from '../player/player.store'

@@ -6,7 +6,7 @@ import { sendCommand } from '../../lib/volumio/api'
 import {
   pausePlayerCommand,
   playPlayerCommand,
-} from '../../lib/volumio/command'
+} from '../../lib/volumio/commands/command'
 import { usePlayerStore } from '../../stores/player/player.store'
 import { PlaybackTrack } from './PlaybackTrack'
 import { VolumeControls } from './VolumeControls'

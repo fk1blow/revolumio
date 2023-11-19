@@ -1,16 +1,40 @@
-import { Box, Flex, Heading, Image, SimpleGrid, Text } from '@chakra-ui/react'
-import { useQuery } from '@tanstack/react-query'
-import { FunctionComponent } from 'react'
+import { Box, Flex } from '@chakra-ui/react'
+import { FunctionComponent, useMemo } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
-import { getFavorites } from '../../lib/volumio/api'
+import { useFavoritesListStore } from '../../stores/favorites/favorites.store'
+import { FavoriteItem } from '../../stores/favorites/types'
+import { Section } from './Section'
 
 interface DashboardProps {}
 
 export const Dashboard: FunctionComponent<DashboardProps> = (_props) => {
-  const { isPending, error, data } = useQuery({
-    queryKey: ['sourceFavourites'],
-    queryFn: getFavorites,
-  })
+  // TODO should... have another way of getting the sources(available)
+  const serviceSources = ['youtube2', 'soundcloud']
+  const favoritesLists = useFavoritesListStore((state) => state.lists)
+  // console.log('favoritesLists: ', favoritesLists)
+
+  const sectionsList = useMemo(() => {
+    if (!favoritesLists?.[0]) {
+      return { youtube: [], soundcloud: [] }
+    }
+
+    return favoritesLists[0].items.reduce(
+      (acc, item) => {
+        return {
+          youtube:
+            item.service === 'youtube2' ? [...acc.youtube, item] : acc.youtube,
+          soundcloud:
+            item.service === 'soundcloud'
+              ? [...acc.soundcloud, item]
+              : acc.soundcloud,
+        }
+      },
+      { youtube: [], soundcloud: [] } as {
+        youtube: FavoriteItem[]
+        soundcloud: FavoriteItem[]
+      }
+    )
+  }, [favoritesLists])
 
   useHotkeys(
     'arrow up',
@@ -30,81 +54,17 @@ export const Dashboard: FunctionComponent<DashboardProps> = (_props) => {
 
   return (
     <Flex
-      gap="3rem"
-      flexDirection={'column'}
-      overflowY={'scroll'}
-      minH={'0'}
+      minH={0}
+      overflow={'auto'}
       pr={'2rem'}
       pb={'calc(100% / 4)'}
       w={'full'}
+      flexDirection={'column'}
+      gap={'3rem'}
     >
-      <Flex alignItems={'end'} gap="1rem" position={'sticky'} top={0}>
-        <Heading size="lg" fontWeight={'semibold'}>
-          Favorites
-        </Heading>
-        <Text as="p" color={'gray.300'} fontSize={'md'} fontWeight={'normal'}>
-          /
-        </Text>
-
-        <Text as="p" color={'gray.300'} fontSize={'md'} fontWeight={'normal'}>
-          Youtube
-        </Text>
-      </Flex>
-
-      <SimpleGrid minChildWidth={'360px'} gap="1.5rem">
-        {data?.map((item) => {
-          return (
-            <Flex
-              key={item.uri}
-              gap="1rem"
-              flexDirection={'column'}
-              flexGrow={1}
-              h="full"
-              justifyContent={'space-between'}
-              overflow={'hidden'}
-            >
-              <Box
-                flexGrow={0}
-                flexShrink={0}
-                bg="black"
-                rounded={'.5rem'}
-                overflow={'hidden'}
-              >
-                <Image
-                  src={item.albumart}
-                  fit={'cover'}
-                  aspectRatio={16 / 9}
-                  h="full"
-                  w="full"
-                  display={'block'}
-                  fallbackSrc="https://via.placeholder.com/150"
-                />
-              </Box>
-
-              <Flex
-                flexDirection={'column'}
-                gap=".25rem"
-                maxH="200px"
-                px={'.25rem'}
-                flexGrow={3}
-              >
-                <Heading as="h3" size="md" fontWeight={'semibold'}>
-                  {item.title}
-                </Heading>
-
-                <Text
-                  as="p"
-                  color={'gray.300'}
-                  fontSize={'sm'}
-                  fontWeight={'normal'}
-                >
-                  {item.artist}
-                </Text>
-              </Flex>
-            </Flex>
-          )
-        })}
-      </SimpleGrid>
+      <Section name="youtube" entries={sectionsList.youtube} />
+      <Box bg={'gray.700'} minH="1px"></Box>
+      <Section name="soundcloud" entries={sectionsList.soundcloud} />
     </Flex>
   )
 }

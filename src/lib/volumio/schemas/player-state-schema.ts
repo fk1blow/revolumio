@@ -1,7 +1,7 @@
-import { z } from "zod"
+import { z } from 'zod'
 
 export const VolumioPlayerStateSchema = z.object({
-  status: z.enum(["play", "pause"]),
+  status: z.enum(['play', 'pause']),
   position: z.number(),
   title: z.string(),
   artist: z.string(),
@@ -27,3 +27,7 @@ export const VolumioPlayerStateSchema = z.object({
   volatile: z.boolean(),
   service: z.string(),
 })
+
+export type VolumioPlayerStateSchemaInferred = z.infer<
+  typeof VolumioPlayerStateSchema
+>

@@ -4,6 +4,8 @@ import { VolumioPlayerStateSchemaInferred } from './schemas/player-state-schema'
 export enum ApiMessageMap {
   GetState = 'getState',
   BrowseLibrary = 'browseLibrary',
+  PausePlayer = 'pause',
+  PlayPlayer = 'play',
 }
 
 export interface ApiResponseMap {
@@ -26,4 +28,12 @@ export const fetchFavoritesCommand: VolumioApiCommand = {
   payload: {
     uri: 'favourites',
   },
+}
+
+export const pausePlayerCommand: VolumioApiCommand = {
+  message: ApiMessageMap.PausePlayer,
+}
+
+export const playPlayerCommand: VolumioApiCommand = {
+  message: ApiMessageMap.PlayPlayer,
 }

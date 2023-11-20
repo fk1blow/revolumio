@@ -6,6 +6,7 @@ import {
   RangeSliderThumb,
   RangeSliderTrack,
 } from '@chakra-ui/react'
+import throttle from 'lodash.throttle'
 import {
   FunctionComponent,
   useCallback,
@@ -20,69 +21,93 @@ import {
   FaVolumeOff,
   FaVolumeXmark,
 } from 'react-icons/fa6'
-import { usePlayerStore } from '../../stores/player/player.store'
+import { usePlayerVolume } from './player-controls.hooks'
 
-interface VolumeTrackProps {}
+const volumeSyncThrottleWaitTime = 500
+const volumeStepSize = 5
 
-export const VolumeTrack: FunctionComponent<VolumeTrackProps> = (_props) => {
-  const playerState = usePlayerStore((state) => state.playerState)
+export const VolumeTrack: FunctionComponent = () => {
+  const { setVolume: setSyncedVolume, volume: syncedVolume } = usePlayerVolume()
 
-  const [volume, setVolume] = useState(playerState?.volume ?? 0)
-  const [isMuted, setIsMuted] = useState(false)
-  const volumeIncrement = 5
+  const [internalVolume, setInternalVolume] = useState(syncedVolume)
+  const [muteState, setMuteState] = useState<{
+    volumeWas: number
+    isMuted: boolean
+  }>({
+    volumeWas: syncedVolume,
+    isMuted: false,
+  })
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const throttledSetSyncedVolume = useCallback(
+    throttle((vol: number) => setSyncedVolume(vol), volumeSyncThrottleWaitTime),
+    []
+  )
+
+  // set the "synced" volume when the internal volume changes
   useEffect(() => {
-    if (!playerState) return
-    setVolume(playerState.volume)
-  }, [playerState])
+    throttledSetSyncedVolume(internalVolume)
+  }, [internalVolume, throttledSetSyncedVolume])
+
+  // set the internal volume value when the (incoming)"synced" volume changes
+  useEffect(() => {
+    setInternalVolume(syncedVolume)
+  }, [syncedVolume])
 
   useHotkeys(
     'arrow up',
     () => {
-      if (isMuted) setIsMuted(false)
-      setVolume((prev) => (prev >= 100 ? 100 : prev + volumeIncrement))
+      setInternalVolume((prev) => (prev >= 100 ? 100 : prev + volumeStepSize))
     },
-    [isMuted]
+    []
   )
 
   useHotkeys(
     'arrow down',
     () => {
-      setVolume((prev) => {
+      setInternalVolume((prev) => {
         if (prev <= 0) return 0
-        return prev - volumeIncrement
+        return prev - volumeStepSize
       })
     },
     []
   )
 
-  useHotkeys(
-    'm',
-    () => {
-      setIsMuted((prev) => !prev)
-    },
-    []
-  )
+  const toggleMuteState = useCallback(() => {
+    if (!muteState.isMuted) {
+      setMuteState(() => ({
+        volumeWas: internalVolume,
+        isMuted: true,
+      }))
 
-  const onClickVolumeRange = useCallback(
-    ([value]: number[]) => {
-      if (isMuted && value > 0) setIsMuted(false)
-      setVolume(value)
-    },
-    [isMuted]
-  )
+      setInternalVolume(0)
+    } else {
+      setMuteState(({ isMuted: current, volumeWas: previous }) => ({
+        volumeWas: previous,
+        isMuted: !current,
+      }))
+
+      setInternalVolume(muteState.volumeWas)
+    }
+  }, [internalVolume, muteState.isMuted, muteState.volumeWas])
+
+  useHotkeys('m', toggleMuteState, [internalVolume, muteState])
+
+  const onClickVolumeRange = useCallback(([value]: number[]) => {
+    setInternalVolume(value)
+  }, [])
 
   const renderVolumeIcon = useMemo(() => {
-    if (isMuted) return <FaVolumeXmark />
-    if (volume === 0) return <FaVolumeOff />
-    if (volume > 50) return <FaVolumeHigh />
+    if (muteState.isMuted) return <FaVolumeXmark />
+    if (internalVolume === 0) return <FaVolumeOff />
+    if (internalVolume > 50) return <FaVolumeHigh />
     return <FaVolumeLow />
-  }, [volume, isMuted])
+  }, [internalVolume, muteState])
 
   return (
     <Flex alignItems={'center'} gap="2rem">
       <IconButton
-        onClick={() => setIsMuted((prev) => !prev)}
+        onClick={toggleMuteState}
         aria-label="Volume"
         border="none"
         fontSize={'1.25rem'}
@@ -90,6 +115,7 @@ export const VolumeTrack: FunctionComponent<VolumeTrackProps> = (_props) => {
         maxW="3rem"
         variant="ghost"
         rounded={'full'}
+        _focus={{ outline: 'none' }}
         icon={renderVolumeIcon}
       />
 
@@ -97,11 +123,13 @@ export const VolumeTrack: FunctionComponent<VolumeTrackProps> = (_props) => {
         w="10rem"
         aria-label={['min', 'max']}
         focusThumbOnChange={false}
-        value={[isMuted ? 0 : volume]}
+        value={[muteState.isMuted ? 0 : internalVolume]}
         onChange={onClickVolumeRange}
       >
         <RangeSliderTrack h="0.35rem">
-          {!isMuted && <RangeSliderFilledTrack h="0.5rem" bg="purple.500" />}
+          {!muteState.isMuted && (
+            <RangeSliderFilledTrack h="0.5rem" bg="purple.500" />
+          )}
         </RangeSliderTrack>
         <RangeSliderThumb h="1rem" w={'1rem'} index={0} tabIndex={-1} />
       </RangeSlider>

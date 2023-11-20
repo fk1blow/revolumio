@@ -7,13 +7,8 @@ export const usePlayerStore = create<PlayerStore>()(
   devtools(
     immer((set) => ({
       playerState: undefined,
-      updatePlayerState: (playerState) => {
-        return set(
-          () => ({ playerState }),
-          false,
-          'playerStore/updatePlayerState'
-        )
-      },
+      updateState: (playerState) =>
+        set(() => ({ playerState }), false, 'playerStore/updateState'),
     }))
   )
 )

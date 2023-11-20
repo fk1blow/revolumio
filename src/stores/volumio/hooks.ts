@@ -8,9 +8,10 @@ import { VolumioPlayerStateSchema } from '../../lib/volumio/schemas/player-state
 import { useFavoriteItemsStore } from '../favorites/favorites.store'
 import { usePlayerStore } from '../player/player.store'
 
+// don't really like this hook but hey, it works
 export const useVolumioInitialization = () => {
   const updateFavorites = useFavoriteItemsStore((state) => state.updateLists)
-  const updatePlayerState = usePlayerStore((state) => state.updatePlayerState)
+  const updatePlayerState = usePlayerStore((state) => state.updateState)
 
   useEffect(() => {
     onReceiveMessage('pushState', (data) => {

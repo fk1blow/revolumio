@@ -17,6 +17,7 @@ export const PlayerControls: FunctionComponent<PlayerControlsProps> = (
   _props
 ) => {
   const playerState = usePlayerStore((state) => state.playerState)
+
   const onTogglePlay = useCallback(() => {
     if (playerState?.status === 'play') {
       sendCommand(pausePlayerCommand)

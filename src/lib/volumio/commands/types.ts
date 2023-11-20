@@ -6,6 +6,7 @@ export enum ApiMessageMap {
   BrowseLibrary = 'browseLibrary',
   PausePlayer = 'pause',
   PlayPlayer = 'play',
+  ChangeVolume = 'volume',
 }
 
 export interface ApiResponseMap {

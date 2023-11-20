@@ -2,5 +2,5 @@ import { VolumioPlayerStateSchemaInferred } from '../../lib/volumio/schemas/play
 
 export interface PlayerStore {
   playerState?: VolumioPlayerStateSchemaInferred
-  updatePlayerState: (playerState: VolumioPlayerStateSchemaInferred) => void
+  updateState: (playerState: VolumioPlayerStateSchemaInferred) => void
 }

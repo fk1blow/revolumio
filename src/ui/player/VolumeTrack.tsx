@@ -6,13 +6,7 @@ import {
   RangeSliderThumb,
   RangeSliderTrack,
 } from '@chakra-ui/react'
-import {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import { FunctionComponent, useCallback, useMemo } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import {
   FaVolumeHigh,
@@ -25,31 +19,12 @@ import { usePlayerVolume } from './player-controls.hooks'
 const volumeStepSize = 5
 
 export const VolumeTrack: FunctionComponent = () => {
-  const { setVolume: setSyncedVolume, volume: syncedVolume } = usePlayerVolume()
-
-  const [internalVolume, setInternalVolume] = useState(syncedVolume)
-  const [muteState, setMuteState] = useState<{
-    volumeWas: number
-    isMuted: boolean
-  }>({
-    volumeWas: syncedVolume,
-    isMuted: false,
-  })
-
-  // set the "synced" volume when the internal volume changes
-  useEffect(() => {
-    setSyncedVolume(internalVolume)
-  }, [internalVolume, setSyncedVolume])
-
-  // set the internal volume value when the (incoming)"synced" volume changes
-  useEffect(() => {
-    setInternalVolume(syncedVolume)
-  }, [syncedVolume])
+  const { setVolume, volume, muteState, setMuteState } = usePlayerVolume()
 
   useHotkeys(
     'arrow up',
     () => {
-      setInternalVolume((prev) => (prev >= 100 ? 100 : prev + volumeStepSize))
+      setVolume((prev) => (prev >= 100 ? 100 : prev + volumeStepSize))
     },
     []
   )
@@ -57,7 +32,7 @@ export const VolumeTrack: FunctionComponent = () => {
   useHotkeys(
     'arrow down',
     () => {
-      setInternalVolume((prev) => {
+      setVolume((prev) => {
         if (prev <= 0) return 0
         return prev - volumeStepSize
       })
@@ -68,33 +43,39 @@ export const VolumeTrack: FunctionComponent = () => {
   const toggleMuteState = useCallback(() => {
     if (!muteState.isMuted) {
       setMuteState(() => ({
-        volumeWas: internalVolume,
+        volumeWas: volume,
         isMuted: true,
       }))
 
-      setInternalVolume(0)
+      setVolume(0)
     } else {
       setMuteState(({ isMuted: current, volumeWas: previous }) => ({
         volumeWas: previous,
         isMuted: !current,
       }))
 
-      setInternalVolume(muteState.volumeWas)
+      setVolume(muteState.volumeWas)
     }
-  }, [internalVolume, muteState.isMuted, muteState.volumeWas])
+  }, [muteState.isMuted, muteState.volumeWas, setMuteState, setVolume, volume])
 
-  useHotkeys('m', toggleMuteState, [internalVolume, muteState])
+  useHotkeys('m', toggleMuteState, [volume, muteState])
 
-  const onClickVolumeRange = useCallback(([value]: number[]) => {
-    setInternalVolume(value)
-  }, [])
+  const onClickVolumeRange = useCallback(
+    ([value]: number[]) => {
+      if (muteState.isMuted) {
+        setMuteState({ isMuted: false, volumeWas: muteState.volumeWas })
+      }
+      setVolume(value)
+    },
+    [muteState.isMuted, muteState.volumeWas, setMuteState, setVolume]
+  )
 
   const renderVolumeIcon = useMemo(() => {
     if (muteState.isMuted) return <FaVolumeXmark />
-    if (internalVolume === 0) return <FaVolumeOff />
-    if (internalVolume > 50) return <FaVolumeHigh />
+    if (volume === 0) return <FaVolumeOff />
+    if (volume > 50) return <FaVolumeHigh />
     return <FaVolumeLow />
-  }, [internalVolume, muteState])
+  }, [volume, muteState])
 
   return (
     <Flex alignItems={'center'} gap="2rem">
@@ -115,7 +96,7 @@ export const VolumeTrack: FunctionComponent = () => {
         w="10rem"
         aria-label={['min', 'max']}
         focusThumbOnChange={false}
-        value={[muteState.isMuted ? 0 : internalVolume]}
+        value={[muteState.isMuted ? 0 : volume]}
         onChange={onClickVolumeRange}
       >
         <RangeSliderTrack h="0.35rem">

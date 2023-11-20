@@ -1,7 +1,7 @@
 import { BrowseLibrarySchemaInferred } from '../schemas/browse-library-schema'
 import { VolumioPlayerStateSchemaInferred } from '../schemas/player-state-schema'
 
-export enum ApiMessageMap {
+export enum ApiCommandsMap {
   GetState = 'getState',
   BrowseLibrary = 'browseLibrary',
   PausePlayer = 'pause',
@@ -16,6 +16,6 @@ export interface ApiResponseMap {
 }
 
 export type VolumioApiCommand = {
-  message: ApiMessageMap
+  message: ApiCommandsMap
   payload?: unknown
 }

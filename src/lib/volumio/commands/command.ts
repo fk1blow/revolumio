@@ -1,28 +1,28 @@
-import { ApiMessageMap, VolumioApiCommand } from './types'
+import { ApiCommandsMap, VolumioApiCommand } from './types'
 
 export const fetchStateCommand: VolumioApiCommand = {
-  message: ApiMessageMap.GetState,
+  message: ApiCommandsMap.GetState,
 }
 
 export const fetchFavoritesCommand: VolumioApiCommand = {
-  message: ApiMessageMap.BrowseLibrary,
+  message: ApiCommandsMap.BrowseLibrary,
   payload: {
     uri: 'favourites',
   },
 }
 
 export const pausePlayerCommand: VolumioApiCommand = {
-  message: ApiMessageMap.PausePlayer,
+  message: ApiCommandsMap.PausePlayer,
 }
 
 // TODO rename it
 export const playPlayerCommand: VolumioApiCommand = {
-  message: ApiMessageMap.PlayPlayer,
+  message: ApiCommandsMap.PlayPlayer,
 }
 
 export const changePlayerVolumeCommand: (
   volume: number
 ) => VolumioApiCommand = (volume: number) => ({
-  message: ApiMessageMap.ChangeVolume,
+  message: ApiCommandsMap.ChangeVolume,
   payload: volume,
 })

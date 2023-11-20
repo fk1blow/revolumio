@@ -6,7 +6,6 @@ import {
   RangeSliderThumb,
   RangeSliderTrack,
 } from '@chakra-ui/react'
-import throttle from 'lodash.throttle'
 import {
   FunctionComponent,
   useCallback,
@@ -23,7 +22,6 @@ import {
 } from 'react-icons/fa6'
 import { usePlayerVolume } from './player-controls.hooks'
 
-const volumeSyncThrottleWaitTime = 500
 const volumeStepSize = 5
 
 export const VolumeTrack: FunctionComponent = () => {
@@ -38,16 +36,10 @@ export const VolumeTrack: FunctionComponent = () => {
     isMuted: false,
   })
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const throttledSetSyncedVolume = useCallback(
-    throttle((vol: number) => setSyncedVolume(vol), volumeSyncThrottleWaitTime),
-    []
-  )
-
   // set the "synced" volume when the internal volume changes
   useEffect(() => {
-    throttledSetSyncedVolume(internalVolume)
-  }, [internalVolume, throttledSetSyncedVolume])
+    setSyncedVolume(internalVolume)
+  }, [internalVolume, setSyncedVolume])
 
   // set the internal volume value when the (incoming)"synced" volume changes
   useEffect(() => {

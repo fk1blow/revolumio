@@ -40,11 +40,30 @@ export const usePlayerVolume = () => {
     setInternalVolume(syncedVolume)
   }, [syncedVolume])
 
+  const toggleMuteState = useCallback(() => {
+    if (!muteState.isMuted) {
+      setMuteState(() => ({
+        volumeWas: internalVolume,
+        isMuted: true,
+      }))
+
+      setInternalVolume(0)
+    } else {
+      setMuteState(({ isMuted: current, volumeWas: previous }) => ({
+        volumeWas: previous,
+        isMuted: !current,
+      }))
+
+      setInternalVolume(muteState.volumeWas)
+    }
+  }, [internalVolume, muteState.isMuted, muteState.volumeWas])
+
   return {
     volume: internalVolume,
     setVolume: setInternalVolume,
     muteState,
     setMuteState,
+    toggleMuteState,
   }
 }
 

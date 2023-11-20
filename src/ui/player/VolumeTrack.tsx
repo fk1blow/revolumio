@@ -19,7 +19,8 @@ import { usePlayerVolume } from './player-controls.hooks'
 const volumeStepSize = 5
 
 export const VolumeTrack: FunctionComponent = () => {
-  const { setVolume, volume, muteState, setMuteState } = usePlayerVolume()
+  const { volume, setVolume, muteState, setMuteState, toggleMuteState } =
+    usePlayerVolume()
 
   useHotkeys(
     'arrow up',
@@ -39,24 +40,6 @@ export const VolumeTrack: FunctionComponent = () => {
     },
     []
   )
-
-  const toggleMuteState = useCallback(() => {
-    if (!muteState.isMuted) {
-      setMuteState(() => ({
-        volumeWas: volume,
-        isMuted: true,
-      }))
-
-      setVolume(0)
-    } else {
-      setMuteState(({ isMuted: current, volumeWas: previous }) => ({
-        volumeWas: previous,
-        isMuted: !current,
-      }))
-
-      setVolume(muteState.volumeWas)
-    }
-  }, [muteState.isMuted, muteState.volumeWas, setMuteState, setVolume, volume])
 
   useHotkeys('m', toggleMuteState, [volume, muteState])
 

@@ -1,10 +1,16 @@
 import throttle from 'lodash.throttle'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { sendCommand } from '../../lib/volumio/api'
-import { changePlayerVolumeCommand } from '../../lib/volumio/commands/command'
+import {
+  changePlayerVolumeCommand,
+  pausePlayerCommand,
+  playPlayerCommand,
+} from '../../lib/volumio/commands/command'
 import { usePlayerStore } from '../../stores/player/player.store'
 
 const volumeSyncThrottleWaitTime = 500
+
+const playerStatusSyncThrottleWaitTime = 500
 
 export const usePlayerVolume = () => {
   const playerState = usePlayerStore((state) => state.playerState)
@@ -67,22 +73,52 @@ export const usePlayerVolume = () => {
   }
 }
 
-// export const usePlayerStatus = () => {
-//   const playerState = usePlayerStore((state) => state.playerState)
+export const usePlayerStatus = () => {
+  const playerState = usePlayerStore((state) => state.playerState)
 
-//   const togglePlayPause = useCallback(
-//     throttle(() => {
-//       if (playerState?.status === 'play') {
-//         sendCommand(pausePlayerCommand)
-//       } else {
-//         sendCommand(playPlayerCommand)
-//       }
-//     }, 500),
-//     []
-//   )
+  const syncedStatus = useMemo(
+    () => (playerState?.status === undefined ? 'pause' : playerState?.status),
+    [playerState]
+  )
 
-//   // TODO
-//   // return {
-//   //   toggle
-//   // }
-// }
+  const [internalStatus, setInternalStatus] = useState(syncedStatus)
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const setSyncedStatus = useCallback(
+    throttle((status: string) => {
+      console.log('status: ', status)
+
+      if (status === 'play') {
+        sendCommand(playPlayerCommand)
+      } else {
+        sendCommand(pausePlayerCommand)
+      }
+    }, playerStatusSyncThrottleWaitTime),
+    []
+  )
+
+  // set the "synced" volume when the internal volume changes
+  useEffect(() => {
+    setSyncedStatus(internalStatus)
+  }, [internalStatus, setSyncedStatus])
+
+  // set the internal volume value when the (incoming)"synced" volume changes
+  useEffect(() => {
+    setInternalStatus(syncedStatus)
+  }, [syncedStatus])
+
+  const toggleStatus = useCallback(() => {
+    console.log('internalStatus: ', internalStatus)
+
+    if (internalStatus === 'play') {
+      setInternalStatus('pause')
+    } else {
+      setInternalStatus('play')
+    }
+  }, [internalStatus])
+
+  return {
+    status: internalStatus,
+    toggleStatus,
+  }
+}

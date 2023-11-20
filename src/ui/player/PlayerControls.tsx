@@ -1,28 +1,19 @@
 import { Flex, IconButton } from '@chakra-ui/react'
-import { FunctionComponent, useCallback } from 'react'
+import { FunctionComponent } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { FaPause, FaPlay } from 'react-icons/fa6'
-import { usePlayerStore } from '../../stores/player/player.store'
 import { PlaybackTrack } from './PlaybackTrack'
 import { VolumeControls } from './VolumeControls'
+import { usePlayerStatus } from './player-controls.hooks'
 
 interface PlayerControlsProps {}
 
 export const PlayerControls: FunctionComponent<PlayerControlsProps> = (
   _props
 ) => {
-  const playerState = usePlayerStore((state) => state.playerState)
+  const { status, toggleStatus } = usePlayerStatus()
 
-  // TODO
-  const onTogglePlay = useCallback(() => {
-    // if (playerState?.status === 'play') {
-    //   sendCommand(pausePlayerCommand)
-    // } else {
-    //   sendCommand(playPlayerCommand)
-    // }
-  }, [playerState?.status])
-
-  useHotkeys('space', () => onTogglePlay(), [])
+  useHotkeys('space', toggleStatus, [toggleStatus])
 
   return (
     <>
@@ -43,8 +34,9 @@ export const PlayerControls: FunctionComponent<PlayerControlsProps> = (
           fontSize={'1.6rem'}
           size="lg"
           rounded={'full'}
-          icon={playerState?.status === 'play' ? <FaPause /> : <FaPlay />}
-          onClick={onTogglePlay}
+          _focus={{ outline: 'none' }}
+          icon={status === 'play' ? <FaPause /> : <FaPlay />}
+          onClick={toggleStatus}
         />
 
         <PlaybackTrack />

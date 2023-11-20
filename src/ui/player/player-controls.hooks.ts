@@ -12,6 +12,9 @@ const volumeSyncThrottleWaitTime = 500
 
 const playerStatusSyncThrottleWaitTime = 500
 
+// need to distinguish between "synced" and "internal" status b/c
+// the player state is not updated immediately after a command is sent
+// and the server response time is not consistent
 export const usePlayerVolume = () => {
   const playerState = usePlayerStore((state) => state.playerState)
 
@@ -73,11 +76,14 @@ export const usePlayerVolume = () => {
   }
 }
 
+// need to distinguish between "synced" and "internal" status b/c
+// the player state is not updated immediately after a command is sent
+// and the server response time is not consistent
 export const usePlayerStatus = () => {
   const playerState = usePlayerStore((state) => state.playerState)
 
   const syncedStatus = useMemo(
-    () => (playerState?.status === undefined ? 'pause' : playerState?.status),
+    () => (playerState?.status === undefined ? 'stop' : playerState?.status),
     [playerState]
   )
 
@@ -86,8 +92,6 @@ export const usePlayerStatus = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const setSyncedStatus = useCallback(
     throttle((status: string) => {
-      console.log('status: ', status)
-
       if (status === 'play') {
         sendCommand(playPlayerCommand)
       } else {

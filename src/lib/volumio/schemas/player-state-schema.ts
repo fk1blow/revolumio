@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 export const VolumioPlayerStateSchema = z.object({
-  status: z.enum(['play', 'pause']),
+  status: z.enum(['play', 'pause', 'stop']),
   position: z.number(),
   title: z.string(),
   artist: z.string(),

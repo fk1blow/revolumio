@@ -18,12 +18,12 @@ export const Sidebar: FunctionComponent<unknown> = () => {
       >
         <Box
           minH="full"
-          bg="purple.400"
-          w={'3px'}
+          bg="gray.400"
+          w={'4px'}
           position={'absolute'}
-          borderRadius={'3px'}
           left={0}
         />
+
         <IconButton
           aria-label="Home"
           variant="ghost"

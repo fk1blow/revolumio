@@ -1,4 +1,4 @@
-import { Button, Flex, Image, Text } from '@chakra-ui/react'
+import { Box, Flex, Image, Text } from '@chakra-ui/react'
 import { FunctionComponent } from 'react'
 import { usePlayerStore } from '../../stores/player/player.store'
 
@@ -8,52 +8,58 @@ export const PlaybackMeta: FunctionComponent<PlaybackMetaProps> = (_props) => {
   const playerState = usePlayerStore((state) => state.playerState)
 
   return (
-    <Flex
-      gap="1rem"
-      align={'center'}
-      justifyContent={'center'}
-      h={'full'}
-      p={'1.5rem'}
-    >
+    <Flex gap="1rem" align={'start'} justifyContent={'start'} minH={0} p="1rem">
       <Image
-        rounded={'.5rem'}
         src={playerState?.albumart ?? 'https://via.placeholder.com/150'}
-        h="100%"
+        maxH="full"
+        h={'full'}
+        aspectRatio={16 / 10}
+        fit={'cover'}
       />
 
       <Flex
         flexDirection={'column'}
-        justify={'center'}
-        align={'start'}
-        gap=".2rem"
+        alignItems={'flex-start'}
+        justifyContent={'start'}
+        gap=".5rem"
+        maxW={'100%'}
+        py={'.5rem'}
+        textOverflow={'ellipsis'}
+        overflow={'hidden'}
       >
-        <Button
+        <Box
+          as="p"
           textAlign={'left'}
           padding="0"
           display="inline"
           border="none"
           width={'inherit'}
-          variant="link"
-          fontSize="md"
+          fontSize="small"
+          fontWeight={'medium'}
+          textOverflow={'ellipsis'}
+          noOfLines={2}
         >
-          {playerState?.artist}
-        </Button>
+          {playerState?.title}
+        </Box>
 
-        <Button
-          textAlign={'left'}
+        <Box
+          as="p"
           padding="0"
           display="inline"
           border="none"
           width={'inherit'}
           color="gray.400"
-          variant="link"
-          fontSize="sm"
+          fontSize="smaller"
+          title={playerState?.artist}
           fontWeight={'normal'}
+          w={'100%'}
+          noOfLines={1}
+          textOverflow={'ellipsis'}
         >
-          {playerState?.title}
-        </Button>
+          {playerState?.artist}
+        </Box>
 
-        <Text fontSize={'12px'} color={'gray.500'} mt={'.75rem'}>
+        <Text fontSize={'12px'} color={'gray.500'}>
           {playerState?.album}
         </Text>
       </Flex>

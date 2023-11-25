@@ -2,8 +2,8 @@ import {
   RangeSlider,
   RangeSliderFilledTrack,
   RangeSliderTrack,
-} from "@chakra-ui/react"
-import { FunctionComponent } from "react"
+} from '@chakra-ui/react'
+import { FunctionComponent } from 'react'
 
 interface PlaybackTrackProps {}
 
@@ -12,9 +12,9 @@ export const PlaybackTrack: FunctionComponent<PlaybackTrackProps> = (
 ) => {
   return (
     <RangeSlider
-      maxW={"800px"}
+      maxW={'600px'}
       w="100%"
-      aria-label={["min", "max"]}
+      aria-label={['min', 'max']}
       value={[0]}
     >
       <RangeSliderTrack h="0.35rem" bg="purple.500">

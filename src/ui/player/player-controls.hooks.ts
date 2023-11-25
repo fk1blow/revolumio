@@ -8,25 +8,22 @@ import {
 } from '../../lib/volumio/commands/command'
 import { usePlayerStore } from '../../stores/player/player.store'
 
-const volumeSyncThrottleWaitTime = 500
-
+const volumeSyncThrottleWaitTime = 1000
 const playerStatusSyncThrottleWaitTime = 500
+const volumeStepSize = 5
 
-// need to distinguish between "synced" and "internal" status b/c
-// the player state is not updated immediately after a command is sent
-// and the server response time is not consistent
 export const usePlayerVolume = () => {
   const playerState = usePlayerStore((state) => state.playerState)
 
   const syncedVolume = useMemo(() => playerState?.volume ?? 0, [playerState])
 
-  const [internalVolume, setInternalVolume] = useState(syncedVolume)
+  const [internalVolume, setInternalVolume] = useState(0)
 
   const [muteState, setMuteState] = useState<{
     volumeWas: number
     isMuted: boolean
   }>({
-    volumeWas: syncedVolume,
+    volumeWas: internalVolume,
     isMuted: false,
   })
 
@@ -39,39 +36,60 @@ export const usePlayerVolume = () => {
     []
   )
 
-  // set the "synced" volume when the internal volume changes
-  useEffect(() => {
-    setSyncedVolume(internalVolume)
-  }, [internalVolume, setSyncedVolume])
-
   // set the internal volume value when the (incoming)"synced" volume changes
   useEffect(() => {
     setInternalVolume(syncedVolume)
   }, [syncedVolume])
 
-  const toggleMuteState = useCallback(() => {
-    if (!muteState.isMuted) {
-      setMuteState(() => ({
-        volumeWas: internalVolume,
-        isMuted: true,
-      }))
+  const changeVolume = useCallback(
+    (value: number) => {
+      if (muteState.isMuted && value > 0) {
+        setMuteState({ isMuted: false, volumeWas: value })
+      }
+      setInternalVolume(value)
+      setSyncedVolume(value)
 
-      setInternalVolume(0)
+      // "track" the volume to use it when un-muting(and going back to the previous volume > 0)
+      setMuteState(({ isMuted }) => ({ isMuted, volumeWas: value }))
+    },
+    [muteState.isMuted, setSyncedVolume]
+  )
+
+  const changeVolumeUp = useCallback(() => {
+    if (muteState.isMuted) {
+      changeVolume(
+        internalVolume >= 100 ? 100 : muteState.volumeWas + volumeStepSize
+      )
     } else {
-      setMuteState(({ isMuted: current, volumeWas: previous }) => ({
-        volumeWas: previous,
-        isMuted: !current,
-      }))
-
-      setInternalVolume(muteState.volumeWas)
+      changeVolume(
+        internalVolume >= 100 ? 100 : internalVolume + volumeStepSize
+      )
     }
-  }, [internalVolume, muteState.isMuted, muteState.volumeWas])
+  }, [changeVolume, internalVolume, muteState.isMuted, muteState.volumeWas])
+
+  const changeVolumeDown = useCallback(() => {
+    if (muteState.isMuted) return
+    changeVolume(internalVolume <= 0 ? 0 : internalVolume - volumeStepSize)
+  }, [changeVolume, internalVolume, muteState.isMuted])
+
+  const toggleMuteState = useCallback(() => {
+    if (muteState.isMuted) {
+      setMuteState(({ volumeWas }) => ({ isMuted: false, volumeWas }))
+      setInternalVolume(muteState.volumeWas)
+      setSyncedVolume(muteState.volumeWas)
+    } else {
+      setMuteState({ isMuted: true, volumeWas: internalVolume })
+      setInternalVolume(0)
+      setSyncedVolume(0)
+    }
+  }, [internalVolume, muteState, setSyncedVolume])
 
   return {
     volume: internalVolume,
-    setVolume: setInternalVolume,
+    changeVolumeUp,
+    changeVolumeDown,
+    changeVolume,
     muteState,
-    setMuteState,
     toggleMuteState,
   }
 }
@@ -101,25 +119,20 @@ export const usePlayerStatus = () => {
     []
   )
 
-  // set the "synced" volume when the internal volume changes
-  useEffect(() => {
-    setSyncedStatus(internalStatus)
-  }, [internalStatus, setSyncedStatus])
-
-  // set the internal volume value when the (incoming)"synced" volume changes
+  // set the internal status value when the (incoming)"synced" status changes
   useEffect(() => {
     setInternalStatus(syncedStatus)
   }, [syncedStatus])
 
   const toggleStatus = useCallback(() => {
-    console.log('internalStatus: ', internalStatus)
-
     if (internalStatus === 'play') {
       setInternalStatus('pause')
+      setSyncedStatus('pause')
     } else {
       setInternalStatus('play')
+      setSyncedStatus('play')
     }
-  }, [internalStatus])
+  }, [internalStatus, setSyncedStatus])
 
   return {
     status: internalStatus,

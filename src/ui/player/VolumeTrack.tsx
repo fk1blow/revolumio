@@ -16,41 +16,27 @@ import {
 } from 'react-icons/fa6'
 import { usePlayerVolume } from './player-controls.hooks'
 
-const volumeStepSize = 5
-
 export const VolumeTrack: FunctionComponent = () => {
-  const { volume, setVolume, muteState, setMuteState, toggleMuteState } =
-    usePlayerVolume()
+  const {
+    volume,
+    changeVolume,
+    changeVolumeUp,
+    changeVolumeDown,
+    muteState,
+    toggleMuteState,
+  } = usePlayerVolume()
 
-  useHotkeys(
-    'arrow up',
-    () => {
-      setVolume((prev) => (prev >= 100 ? 100 : prev + volumeStepSize))
-    },
-    []
-  )
+  useHotkeys('arrow up', changeVolumeUp, [volume, changeVolume])
 
-  useHotkeys(
-    'arrow down',
-    () => {
-      setVolume((prev) => {
-        if (prev <= 0) return 0
-        return prev - volumeStepSize
-      })
-    },
-    []
-  )
+  useHotkeys('arrow down', changeVolumeDown, [volume, changeVolume])
 
   useHotkeys('m', toggleMuteState, [volume, muteState])
 
   const onClickVolumeRange = useCallback(
     ([value]: number[]) => {
-      if (muteState.isMuted) {
-        setMuteState({ isMuted: false, volumeWas: muteState.volumeWas })
-      }
-      setVolume(value)
+      changeVolume(value)
     },
-    [muteState.isMuted, muteState.volumeWas, setMuteState, setVolume]
+    [changeVolume]
   )
 
   const renderVolumeIcon = useMemo(() => {

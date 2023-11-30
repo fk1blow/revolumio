@@ -1,28 +1,39 @@
-import { Box, Image } from '@chakra-ui/react'
-import { FunctionComponent } from 'react'
+import { Box } from '@chakra-ui/react'
+import { FunctionComponent, useRef } from 'react'
+import { usePlaybackStore } from '../../stores/playback/playback.store'
 
 interface BackgroundBlurProps {}
 
 export const BackgroundBlur: FunctionComponent<BackgroundBlurProps> = (
   _props
 ) => {
+  const imageBoxRef = useRef(null)
+
+  const playerState = usePlaybackStore((state) => state.playbackState)
+
   return (
-    <Box position={'absolute'} left={0} top={0} w="100vw" h="100vh">
-      <Image
-        w="100vw"
-        h="100vh"
-        objectFit={'cover'}
-        src="https://i.ytimg.com/vi/P5fzCZFPQ6c/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLC_dAFEM7XPRmI4mraqQrZ4COoXNg"
-      />
-      <Box
-        position={'absolute'}
-        top={0}
-        left={0}
-        w="full"
-        h="full"
-        bg="#064C5750"
-        backdropFilter={'blur(17px)'}
-      ></Box>
-    </Box>
+    <Box
+      ref={imageBoxRef}
+      position={'absolute'}
+      left={0}
+      top={0}
+      w="100vw"
+      h="100vh"
+      zIndex={-1}
+      filter={'grayscale(45%)'}
+      backgroundPosition={'center'}
+      backgroundSize={'cover'}
+      backgroundImage={
+        playerState?.albumart ?? 'https://via.placeholder.com/150'
+      }
+      _after={{
+        content: '""',
+        position: 'absolute',
+        w: '100%',
+        h: '100%',
+        background: '#23252865',
+        backdropFilter: 'blur(17px)',
+      }}
+    ></Box>
   )
 }

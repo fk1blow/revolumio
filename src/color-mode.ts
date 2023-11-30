@@ -17,7 +17,7 @@ const theme = {
   styles: {
     global: {
       body: {
-        bg: '#131324',
+        bg: 'transparent',
       },
     },
   },

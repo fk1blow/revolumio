@@ -23,15 +23,15 @@ export const MediaSources: FunctionComponent<MediaSourcesProps> = (_props) => {
       display="flex"
       alignItems="center"
       flexDirection="column"
-      gap={'1rem'}
+      gap={'.5rem'}
       listStyleType={'none'}
     >
       <IconButton
         aria-label="Youtube"
         variant="ghost"
         border="none"
-        fontSize={'1.5625rem'}
-        color={'gray.300'}
+        fontSize={'1.25rem'}
+        color={'#E1E2E7'}
         size="lg"
         icon={<FaYoutube />}
       />
@@ -40,8 +40,8 @@ export const MediaSources: FunctionComponent<MediaSourcesProps> = (_props) => {
         aria-label="Spotify"
         variant="ghost"
         border="none"
-        fontSize={'1.5625rem'}
-        color={'gray.300'}
+        fontSize={'1.25rem'}
+        color={'#E1E2E7'}
         size="lg"
         icon={<FaSpotify />}
       />
@@ -50,8 +50,8 @@ export const MediaSources: FunctionComponent<MediaSourcesProps> = (_props) => {
         aria-label="Soundcloud"
         variant="ghost"
         border="none"
-        color={'gray.300'}
-        fontSize={'1.5625rem'}
+        color={'#E1E2E7'}
+        fontSize={'1.25rem'}
         size="lg"
         icon={<FaSoundcloud />}
       />
@@ -60,8 +60,8 @@ export const MediaSources: FunctionComponent<MediaSourcesProps> = (_props) => {
         aria-label="Radio"
         variant="ghost"
         border="none"
-        fontSize={'1.5625rem'}
-        color={'gray.300'}
+        fontSize={'1.25rem'}
+        color={'#E1E2E7'}
         size="lg"
         icon={<FaRadio />}
       />
@@ -71,8 +71,8 @@ export const MediaSources: FunctionComponent<MediaSourcesProps> = (_props) => {
         title="Add Media Source"
         variant="ghost"
         border="none"
-        fontSize={'1.5625rem'}
-        color={'gray.300'}
+        fontSize={'1.25rem'}
+        color={'#E1E2E7'}
         size="lg"
         icon={<FaPlus />}
       />

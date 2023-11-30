@@ -1,46 +1,63 @@
-import { Box, Flex, Image, Text } from '@chakra-ui/react'
+import { Box, Flex, Heading, Image, Text } from '@chakra-ui/react'
 import { FunctionComponent } from 'react'
-import { usePlayerStore } from '../../stores/player/player.store'
+import { usePlaybackStore } from '../../stores/playback/playback.store'
 
-interface PlaybackMetaProps {}
+interface PlaybackMetaProps {
+  showImage: boolean
+  onClickImage?: () => void
+}
 
-export const PlaybackMeta: FunctionComponent<PlaybackMetaProps> = (_props) => {
-  const playerState = usePlayerStore((state) => state.playerState)
+export const PlaybackMeta: FunctionComponent<PlaybackMetaProps> = ({
+  showImage,
+  onClickImage,
+}) => {
+  const playerState = usePlaybackStore((state) => state.playbackState)
 
   return (
-    <Flex gap="1rem" align={'start'} justifyContent={'start'} minH={0} p="1rem">
-      <Image
-        src={playerState?.albumart ?? 'https://via.placeholder.com/150'}
-        maxH="full"
-        h={'full'}
-        aspectRatio={16 / 10}
-        fit={'cover'}
-      />
+    <>
+      {showImage && (
+        <Box position={'relative'} userSelect={'none'}>
+          <Image
+            src={playerState?.albumart ?? 'https://via.placeholder.com/150'}
+            maxH="100%"
+            h={'100%'}
+            rounded={'.5rem'}
+            aspectRatio={16 / 10}
+            fit={'cover'}
+            onClick={onClickImage}
+            _hover={{
+              cursor: 'pointer',
+              opacity: 0.8,
+              filter: 'blur(2px)',
+              transition: 'all .2s ease',
+            }}
+          />
+        </Box>
+      )}
 
       <Flex
         flexDirection={'column'}
-        alignItems={'flex-start'}
-        justifyContent={'start'}
-        gap=".5rem"
+        justifyContent={'center'}
+        gap=".25rem"
         maxW={'100%'}
-        py={'.5rem'}
+        h={'full'}
         textOverflow={'ellipsis'}
         overflow={'hidden'}
       >
-        <Box
+        <Heading
           as="p"
           textAlign={'left'}
           padding="0"
           display="inline"
           border="none"
           width={'inherit'}
-          fontSize="small"
-          fontWeight={'medium'}
+          fontWeight={'semibold'}
           textOverflow={'ellipsis'}
-          noOfLines={2}
+          noOfLines={1}
+          fontSize={'clamp(1rem, 1.2vw, 1.375rem)'}
         >
           {playerState?.title}
-        </Box>
+        </Heading>
 
         <Box
           as="p"
@@ -49,7 +66,7 @@ export const PlaybackMeta: FunctionComponent<PlaybackMetaProps> = (_props) => {
           border="none"
           width={'inherit'}
           color="gray.400"
-          fontSize="smaller"
+          fontSize={'clamp(0.875rem, 1vw, 1.025rem)'}
           title={playerState?.artist}
           fontWeight={'normal'}
           w={'100%'}
@@ -63,6 +80,6 @@ export const PlaybackMeta: FunctionComponent<PlaybackMetaProps> = (_props) => {
           {playerState?.album}
         </Text>
       </Flex>
-    </Flex>
+    </>
   )
 }

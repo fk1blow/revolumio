@@ -1,5 +1,17 @@
-import { Box, Flex, Heading, Image, SimpleGrid, Text } from '@chakra-ui/react'
-import { FunctionComponent } from 'react'
+import {
+  Box,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  Flex,
+  Grid,
+  Heading,
+  Image,
+  Text,
+  theme,
+  useMediaQuery,
+} from '@chakra-ui/react'
+import { FunctionComponent, useMemo } from 'react'
 import { FavoriteItem } from '../../stores/favorites/types'
 
 interface SectionProps {
@@ -11,22 +23,43 @@ export const Section: FunctionComponent<SectionProps> = ({
   entries,
   name,
 }: SectionProps) => {
+  const [isMediumScreen, isLargeScreen, isXLScreen, is2XLScreen] =
+    useMediaQuery([
+      `(min-width: ${theme.breakpoints.md})`,
+      `(min-width: ${theme.breakpoints.lg})`,
+      `(min-width: ${theme.breakpoints.xl})`,
+      `(min-width: ${theme.breakpoints['2xl']})`,
+    ])
+
+  const columnSize = useMemo(() => {
+    if (isXLScreen && !is2XLScreen) return 'minmax(340px, 1fr)'
+    if (is2XLScreen) return 'minmax(400px, 1fr)'
+    return 'minmax(240px, 1fr)'
+  }, [is2XLScreen, isXLScreen])
+
   return (
-    <Flex gap="3rem" flexDirection={'column'}>
-      <Flex alignItems={'end'} gap="1rem">
-        <Heading size="lg" fontWeight={'semibold'}>
-          Favorites
-        </Heading>
-        <Text as="p" color={'gray.300'} fontSize={'md'} fontWeight={'normal'}>
-          /
-        </Text>
+    <Flex gap="1rem" flexDirection={'column'}>
+      <Breadcrumb
+        pos={'sticky'}
+        top={0}
+        bg={'#232528'}
+        pb={'1rem'}
+        pl={'1.125rem'}
+      >
+        <BreadcrumbItem>
+          <BreadcrumbLink fontSize={'large'} fontWeight={'normal'} href="#">
+            favorites
+          </BreadcrumbLink>
+        </BreadcrumbItem>
 
-        <Text as="p" color={'gray.300'} fontSize={'md'} fontWeight={'normal'}>
-          {name}
-        </Text>
-      </Flex>
+        <BreadcrumbItem>
+          <Text fontSize={'large'} fontWeight={'normal'}>
+            {name}
+          </Text>
+        </BreadcrumbItem>
+      </Breadcrumb>
 
-      <SimpleGrid minChildWidth={'360px'} gap="1.5rem">
+      <Grid templateColumns={`repeat(auto-fit, ${columnSize})`} gap="1.5rem">
         {entries?.map((item) => {
           return (
             <Flex
@@ -48,7 +81,7 @@ export const Section: FunctionComponent<SectionProps> = ({
                 <Image
                   src={item.albumart}
                   fit={'cover'}
-                  aspectRatio={16 / 9}
+                  aspectRatio={16 / 10}
                   h="full"
                   w="full"
                   display={'block'}
@@ -63,13 +96,20 @@ export const Section: FunctionComponent<SectionProps> = ({
                 px={'.25rem'}
                 flexGrow={3}
               >
-                <Heading as="h3" size="md" fontWeight={'semibold'}>
+                <Heading
+                  as="h3"
+                  size="md"
+                  fontWeight={'semibold'}
+                  fontSize={'clamp(1rem, 1.3vw, 1.25rem)'}
+                  noOfLines={3}
+                  color={'#E0E0E0'}
+                >
                   {item.title}
                 </Heading>
 
                 <Text
                   as="p"
-                  color={'gray.300'}
+                  color={'#BDBDBD'}
                   fontSize={'sm'}
                   fontWeight={'normal'}
                 >
@@ -79,7 +119,7 @@ export const Section: FunctionComponent<SectionProps> = ({
             </Flex>
           )
         })}
-      </SimpleGrid>
+      </Grid>
     </Flex>
   )
 }

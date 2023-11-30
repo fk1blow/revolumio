@@ -1,0 +1,110 @@
+import {
+  Flex,
+  Grid,
+  GridItem,
+  Heading,
+  IconButton,
+  Image,
+  Text,
+} from '@chakra-ui/react'
+import { FunctionComponent } from 'react'
+import { FaChevronDown } from 'react-icons/fa6'
+import { useMediaQuery } from 'react-responsive'
+import { usePlaybackStore } from '../../stores/playback/playback.store'
+import { usePlayerStore } from '../../stores/player/player.store'
+import { BackgroundBlur } from '../background-blur/BackgroundBlur'
+import { PlaybackControls } from '../player/PlaybackControls'
+import { PlaybackProgress } from '../player/PlaybackProgress'
+
+interface FocusPlayerProps {}
+
+export const FocusedPlayer: FunctionComponent<FocusPlayerProps> = (_props) => {
+  const playerState = usePlaybackStore((state) => state.playbackState)
+  const showDockedPlayer = usePlayerStore((state) => state.showDockedPlayer)
+
+  const isLayoutInline = useMediaQuery({ maxHeight: '480px' })
+
+  return (
+    <Grid
+      position={'absolute'}
+      top={0}
+      left={0}
+      h={'100vh'}
+      w={'100vw'}
+      overflow={'hidden'}
+      zIndex={'99'}
+      templateRows={
+        isLayoutInline ? '1fr' : 'minmax(200px, 4fr) minmax(200px, 5fr)'
+      }
+      templateColumns={isLayoutInline ? '1fr 1fr' : '1fr'}
+      p={isLayoutInline ? '1rem' : '2rem'}
+      gap={'1rem'}
+    >
+      {<BackgroundBlur />}
+
+      <IconButton
+        position={'absolute'}
+        left={'1rem'}
+        top={'.5rem'}
+        variant={'ghost'}
+        icon={<FaChevronDown />}
+        aria-label={''}
+        onClick={showDockedPlayer}
+      />
+
+      <GridItem
+        as="section"
+        justifySelf={'center'}
+        maxW={isLayoutInline ? 'auto' : '600px'}
+        alignSelf={isLayoutInline ? 'center' : 'normal'}
+      >
+        <Flex h="full" justify={'center'} px={'2rem'} alignItems={'center'}>
+          <Image
+            h={'auto'}
+            w={'100%'}
+            maxH={'100%'}
+            maxW={'100%'}
+            minW={'250px'}
+            objectFit={'contain'}
+            rounded={'.5rem'}
+            src={playerState?.albumart ?? 'https://via.placeholder.com/150'}
+          />
+        </Flex>
+      </GridItem>
+
+      <GridItem
+        as="section"
+        display={'flex'}
+        flexDir={'column'}
+        justifySelf={'center'}
+        alignSelf={isLayoutInline ? 'center' : 'normal'}
+        maxW={'700px'}
+      >
+        <Flex direction={'column'} gap={'2rem'}>
+          <Flex direction={'column'} align={'start'} gap={'1rem'}>
+            <Heading
+              fontSize={'clamp(1.125rem, 2.5vw, 2rem)'}
+              fontWeight={'medium'}
+              noOfLines={3}
+            >
+              {playerState?.title}
+            </Heading>
+
+            <Text
+              as="p"
+              fontSize={'clamp(.9375rem, 2vw, 1.25rem)'}
+              color="#D9D9D9"
+              noOfLines={1}
+            >
+              {playerState?.artist}
+            </Text>
+          </Flex>
+
+          <PlaybackProgress />
+
+          <PlaybackControls size="sm" />
+        </Flex>
+      </GridItem>
+    </Grid>
+  )
+}

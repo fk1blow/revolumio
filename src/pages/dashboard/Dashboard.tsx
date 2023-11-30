@@ -56,7 +56,7 @@ export const Dashboard: FunctionComponent<DashboardProps> = (_props) => {
     <Flex
       minH={0}
       overflow={'auto'}
-      pr={'2rem'}
+      pr={'1rem'}
       pb={'calc(100% / 4)'}
       w={'full'}
       flexDirection={'column'}

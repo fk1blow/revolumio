@@ -1,41 +1,39 @@
-import { Box, IconButton } from '@chakra-ui/react'
+import { Flex, IconButton } from '@chakra-ui/react'
 import { FunctionComponent } from 'react'
-import { FaStar } from 'react-icons/fa6'
+import { FaGear, FaStar } from 'react-icons/fa6'
 import { MediaSources } from './MediaSources'
 
 export const Sidebar: FunctionComponent<unknown> = () => {
   return (
-    <>
-      <Box
-        w="100%"
-        display="flex"
-        alignItems="center"
-        flexDirection="column"
-        listStyleType={'none'}
-        mt="-.25rem"
-        mb=".75rem"
-        position={'relative'}
-      >
-        <Box
-          minH="full"
-          bg="gray.400"
-          w={'4px'}
-          position={'absolute'}
-          left={0}
-        />
+    <Flex direction={'column'} px={'.75rem'} h={'full'} minW={0} pt={'5rem'}>
+      <IconButton
+        aria-label="Home"
+        variant="ghost"
+        border="none"
+        fontSize={'1.25rem'}
+        color={'#E1E2E7'}
+        size="lg"
+        icon={<FaStar />}
+      />
 
+      <MediaSources />
+
+      <Flex
+        direction={'column'}
+        flexGrow={1}
+        justifyContent={'end'}
+        pb={'4rem'}
+      >
         <IconButton
           aria-label="Home"
           variant="ghost"
           border="none"
-          fontSize={'1.5rem'}
-          color={'gray.300'}
+          fontSize={'1.25rem'}
+          color={'#E1E2E7'}
           size="lg"
-          icon={<FaStar />}
+          icon={<FaGear />}
         />
-      </Box>
-
-      <MediaSources />
-    </>
+      </Flex>
+    </Flex>
   )
 }

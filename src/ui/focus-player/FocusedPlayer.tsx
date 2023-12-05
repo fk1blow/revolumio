@@ -43,20 +43,22 @@ export const FocusedPlayer: FunctionComponent<FocusPlayerProps> = (_props) => {
 
       <Box
         position={'absolute'}
-        width={'clamp(150px, 15vw, 300px)'}
-        left={'calc(50% - (clamp(150px, 15vw, 300px) / 2))'}
+        width={'clamp(40px, 15vw, 100px)'}
+        left={'calc(50% - (clamp(40px, 15vw, 100px) / 2))'}
         top={isLayoutInline ? '.5rem' : '1rem'}
-        height={'2rem'}
+        height={'3rem'}
         px={'1rem'}
         rounded={'full'}
-        _hover={{ cursor: 'pointer' }}
+        opacity={0.4}
+        transition={'opacity .2s ease'}
+        _hover={{ cursor: 'pointer', opacity: 0.8 }}
         _after={{
           content: '""',
           width: 'full',
-          marginTop: '.75rem',
-          height: '.5rem',
+          marginTop: '1.35rem',
+          height: '.35rem',
           display: 'block',
-          bg: '#23252875',
+          bg: '#ffffff',
           rounded: 'full',
         }}
         onClick={showDockedPlayer}

@@ -36,7 +36,8 @@ export const PlaybackMeta: FunctionComponent<PlaybackMetaProps> = ({
 
       <Flex
         flexDirection={'column'}
-        justifyContent={'space-between'}
+        justifyContent={'center'}
+        gap={'.25rem'}
         maxW={'54ch'}
         h={'full'}
         textOverflow={'ellipsis'}

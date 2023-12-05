@@ -27,7 +27,7 @@ export const Section: FunctionComponent<SectionProps> = ({
 
   const columnSize = useMemo(() => {
     if (isXLScreen) return 'minmax(300px, 1fr)'
-    return 'minmax(240px, 1fr)'
+    return 'minmax(200px, 1fr)'
   }, [isXLScreen])
 
   return (
@@ -87,17 +87,16 @@ export const Section: FunctionComponent<SectionProps> = ({
                   as="h3"
                   size="md"
                   fontWeight={'semibold'}
-                  fontSize={'clamp(1rem, 1.2vw, 1.25rem)'}
+                  fontSize={'1rem'}
                   noOfLines={3}
-                  color={'#E0E0E0'}
                 >
                   {item.title}
                 </Heading>
 
                 <Text
                   as="p"
-                  color={'#BDBDBD'}
-                  fontSize={'sm'}
+                  color="gray.400"
+                  fontSize={'.875rem'}
                   fontWeight={'normal'}
                 >
                   {item.artist}

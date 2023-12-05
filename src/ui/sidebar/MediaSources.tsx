@@ -32,8 +32,11 @@ export const MediaSources: FunctionComponent<MediaSourcesProps> = (_props) => {
         border="none"
         fontSize={'1.25rem'}
         color={'#E1E2E7'}
-        size="lg"
+        h={'2.625rem'}
+        w={'2.625rem'}
+        rounded={'.75rem'}
         icon={<FaYoutube />}
+        _focus={{ outline: 'none' }}
       />
 
       <IconButton
@@ -42,7 +45,10 @@ export const MediaSources: FunctionComponent<MediaSourcesProps> = (_props) => {
         border="none"
         fontSize={'1.25rem'}
         color={'#E1E2E7'}
-        size="lg"
+        h={'2.625rem'}
+        w={'2.625rem'}
+        rounded={'.75rem'}
+        _focus={{ outline: 'none' }}
         icon={<FaSpotify />}
       />
 
@@ -52,7 +58,10 @@ export const MediaSources: FunctionComponent<MediaSourcesProps> = (_props) => {
         border="none"
         color={'#E1E2E7'}
         fontSize={'1.25rem'}
-        size="lg"
+        h={'2.625rem'}
+        w={'2.625rem'}
+        rounded={'.75rem'}
+        _focus={{ outline: 'none' }}
         icon={<FaSoundcloud />}
       />
 
@@ -62,7 +71,10 @@ export const MediaSources: FunctionComponent<MediaSourcesProps> = (_props) => {
         border="none"
         fontSize={'1.25rem'}
         color={'#E1E2E7'}
-        size="lg"
+        h={'2.625rem'}
+        w={'2.625rem'}
+        rounded={'.75rem'}
+        _focus={{ outline: 'none' }}
         icon={<FaRadio />}
       />
 
@@ -73,7 +85,10 @@ export const MediaSources: FunctionComponent<MediaSourcesProps> = (_props) => {
         border="none"
         fontSize={'1.25rem'}
         color={'#E1E2E7'}
-        size="lg"
+        h={'2.625rem'}
+        w={'2.625rem'}
+        rounded={'.75rem'}
+        _focus={{ outline: 'none' }}
         icon={<FaPlus />}
       />
     </Box>

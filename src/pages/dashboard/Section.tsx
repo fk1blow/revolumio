@@ -23,29 +23,16 @@ export const Section: FunctionComponent<SectionProps> = ({
   entries,
   name,
 }: SectionProps) => {
-  const [isMediumScreen, isLargeScreen, isXLScreen, is2XLScreen] =
-    useMediaQuery([
-      `(min-width: ${theme.breakpoints.md})`,
-      `(min-width: ${theme.breakpoints.lg})`,
-      `(min-width: ${theme.breakpoints.xl})`,
-      `(min-width: ${theme.breakpoints['2xl']})`,
-    ])
+  const [isXLScreen] = useMediaQuery([`(min-width: ${theme.breakpoints.xl})`])
 
   const columnSize = useMemo(() => {
-    if (isXLScreen && !is2XLScreen) return 'minmax(340px, 1fr)'
-    if (is2XLScreen) return 'minmax(400px, 1fr)'
+    if (isXLScreen) return 'minmax(300px, 1fr)'
     return 'minmax(240px, 1fr)'
-  }, [is2XLScreen, isXLScreen])
+  }, [isXLScreen])
 
   return (
     <Flex gap="1rem" flexDirection={'column'}>
-      <Breadcrumb
-        pos={'sticky'}
-        top={0}
-        bg={'#232528'}
-        pb={'1rem'}
-        pl={'1.125rem'}
-      >
+      <Breadcrumb pos={'sticky'} top={0} pb={'1rem'} pl={'1.125rem'}>
         <BreadcrumbItem>
           <BreadcrumbLink fontSize={'large'} fontWeight={'normal'} href="#">
             favorites
@@ -100,7 +87,7 @@ export const Section: FunctionComponent<SectionProps> = ({
                   as="h3"
                   size="md"
                   fontWeight={'semibold'}
-                  fontSize={'clamp(1rem, 1.3vw, 1.25rem)'}
+                  fontSize={'clamp(1rem, 1.2vw, 1.25rem)'}
                   noOfLines={3}
                   color={'#E0E0E0'}
                 >

@@ -67,12 +67,12 @@ export const VolumeControls: FunctionComponent<VolumeControlsProps> = ({
         value={[muteState.isMuted ? 0 : volume]}
         onChange={onClickVolumeRange}
       >
-        <RangeSliderTrack h="0.625rem" w="0.5rem" bg={'#585960'}>
+        <RangeSliderTrack w="0.5rem" bg={'#6A4477'}>
           {!muteState.isMuted && (
-            <RangeSliderFilledTrack w="0.5rem" h="0.5rem" bg="#E1E2E7" />
+            <RangeSliderFilledTrack w="0.5rem" bg="#BB7CD1" />
           )}
         </RangeSliderTrack>
-        <RangeSliderThumb h={'1.25rem'} w={'1.25rem'} index={0} tabIndex={-1} />
+        <RangeSliderThumb h={'1rem'} w={'1rem'} index={0} tabIndex={-1} />
       </RangeSlider>
     )
   }, [muteState.isMuted, onClickVolumeRange, style, volume])

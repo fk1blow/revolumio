@@ -1,14 +1,13 @@
 import {
+  Box,
   Flex,
   Grid,
   GridItem,
   Heading,
-  IconButton,
   Image,
   Text,
 } from '@chakra-ui/react'
 import { FunctionComponent } from 'react'
-import { FaChevronDown } from 'react-icons/fa6'
 import { useMediaQuery } from 'react-responsive'
 import { usePlaybackStore } from '../../stores/playback/playback.store'
 import { usePlayerStore } from '../../stores/player/player.store'
@@ -37,18 +36,29 @@ export const FocusedPlayer: FunctionComponent<FocusPlayerProps> = (_props) => {
         isLayoutInline ? '1fr' : 'minmax(200px, 4fr) minmax(200px, 5fr)'
       }
       templateColumns={isLayoutInline ? '1fr 1fr' : '1fr'}
-      p={isLayoutInline ? '1rem' : '2rem'}
+      p={isLayoutInline ? '2rem' : '2rem'}
       gap={'1rem'}
     >
       {<BackgroundBlur />}
 
-      <IconButton
+      <Box
         position={'absolute'}
-        left={'1rem'}
-        top={'.5rem'}
-        variant={'ghost'}
-        icon={<FaChevronDown />}
-        aria-label={''}
+        width={'clamp(150px, 15vw, 300px)'}
+        left={'calc(50% - (clamp(150px, 15vw, 300px) / 2))'}
+        top={isLayoutInline ? '.5rem' : '1rem'}
+        height={'2rem'}
+        px={'1rem'}
+        rounded={'full'}
+        _hover={{ cursor: 'pointer' }}
+        _after={{
+          content: '""',
+          width: 'full',
+          marginTop: '.75rem',
+          height: '.5rem',
+          display: 'block',
+          bg: '#23252875',
+          rounded: 'full',
+        }}
         onClick={showDockedPlayer}
       />
 
@@ -57,6 +67,7 @@ export const FocusedPlayer: FunctionComponent<FocusPlayerProps> = (_props) => {
         justifySelf={'center'}
         maxW={isLayoutInline ? 'auto' : '600px'}
         alignSelf={isLayoutInline ? 'center' : 'normal'}
+        mt={isLayoutInline ? '.5rem' : '2rem'}
       >
         <Flex h="full" justify={'center'} px={'2rem'} alignItems={'center'}>
           <Image
@@ -64,7 +75,7 @@ export const FocusedPlayer: FunctionComponent<FocusPlayerProps> = (_props) => {
             w={'100%'}
             maxH={'100%'}
             maxW={'100%'}
-            minW={'250px'}
+            minW={'200px'}
             objectFit={'contain'}
             rounded={'.5rem'}
             src={playerState?.albumart ?? 'https://via.placeholder.com/150'}
@@ -79,6 +90,7 @@ export const FocusedPlayer: FunctionComponent<FocusPlayerProps> = (_props) => {
         justifySelf={'center'}
         alignSelf={isLayoutInline ? 'center' : 'normal'}
         maxW={'700px'}
+        width={'100%'}
       >
         <Flex direction={'column'} gap={'2rem'}>
           <Flex direction={'column'} align={'start'} gap={'1rem'}>

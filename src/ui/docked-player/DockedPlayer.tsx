@@ -20,10 +20,6 @@ export const DockedPlayer: FunctionComponent<DockerPlayerProps> = (_props) => {
     minWidth: theme.breakpoints.xl,
   })
 
-  const is2XLScreen = useMediaQuery({
-    minWidth: theme.breakpoints['2xl'],
-  })
-
   const isLargeScreen = useMediaQuery({
     minWidth: theme.breakpoints.lg,
   })
@@ -39,24 +35,18 @@ export const DockedPlayer: FunctionComponent<DockerPlayerProps> = (_props) => {
     return 'single'
   }, [isLargeScreen, isMediumScreen])
 
-  const playerContainerHeight = useMemo(() => {
-    if (is2XLScreen) {
-      return '140px'
-    }
-    return '100px'
-  }, [is2XLScreen])
-
   return (
     <Flex
-      h={playerContainerHeight}
-      p={isMediumScreen ? '1rem' : '.5rem'}
-      bg={'#232628'}
-      gap={isMediumScreen ? '1rem' : '.5rem'}
       position={'relative'}
+      h={'6rem'}
+      px={'2rem'}
+      py={'1rem'}
+      gap={isMediumScreen ? '1rem' : '.5rem'}
+      bg={'#1F1F23'}
     >
       <Box
         position={'absolute'}
-        top={'-16px'}
+        top={'-14px'}
         left={0}
         w={'full'}
         h={'auto'}
@@ -65,8 +55,13 @@ export const DockedPlayer: FunctionComponent<DockerPlayerProps> = (_props) => {
         <PlaybackProgress rounded={false} />
       </Box>
 
+      <Flex justifyContent={'start'} alignItems={'center'}>
+        <PlaybackControls style={playbackCtrlsStyle} size="sm" />
+      </Flex>
+
       <Flex
-        justifyContent={'start'}
+        justifyContent={'center'}
+        mx={'auto'}
         flexGrow={1}
         gap={isMediumScreen ? '1rem' : '.5rem'}
       >
@@ -76,9 +71,9 @@ export const DockedPlayer: FunctionComponent<DockerPlayerProps> = (_props) => {
         />
       </Flex>
 
-      <PlaybackControls style={playbackCtrlsStyle} size="sm" />
-
-      <VolumeControls style={isXLScreen ? 'inline' : 'floating'} />
+      <Flex gap={{ base: '1rem', lg: '2rem' }}>
+        <VolumeControls style={isXLScreen ? 'inline' : 'floating'} />
+      </Flex>
     </Flex>
   )
 }

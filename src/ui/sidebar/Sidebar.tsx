@@ -5,7 +5,15 @@ import { MediaSources } from './MediaSources'
 
 export const Sidebar: FunctionComponent<unknown> = () => {
   return (
-    <Flex direction={'column'} px={'.75rem'} h={'full'} minW={0} pt={'5rem'}>
+    <Flex
+      direction={'column'}
+      px={'.75rem'}
+      pt={'5rem'}
+      h={'full'}
+      w={'5rem'}
+      minW={0}
+      bg={'#1F1F23'}
+    >
       <IconButton
         aria-label="Home"
         variant="ghost"

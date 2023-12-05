@@ -1,7 +1,6 @@
-import { Box, Flex, Heading, Image, Text } from '@chakra-ui/react'
+import { Box, Flex, Heading, Image } from '@chakra-ui/react'
 import { FunctionComponent } from 'react'
 import { usePlaybackStore } from '../../stores/playback/playback.store'
-
 interface PlaybackMetaProps {
   showImage: boolean
   onClickImage?: () => void
@@ -16,11 +15,11 @@ export const PlaybackMeta: FunctionComponent<PlaybackMetaProps> = ({
   return (
     <>
       {showImage && (
-        <Box position={'relative'} userSelect={'none'}>
+        <Flex userSelect={'none'} alignItems={'center'}>
           <Image
             src={playerState?.albumart ?? 'https://via.placeholder.com/150'}
             maxH="100%"
-            h={'100%'}
+            h={'68px'}
             rounded={'.5rem'}
             aspectRatio={16 / 10}
             fit={'cover'}
@@ -32,14 +31,13 @@ export const PlaybackMeta: FunctionComponent<PlaybackMetaProps> = ({
               transition: 'all .2s ease',
             }}
           />
-        </Box>
+        </Flex>
       )}
 
       <Flex
         flexDirection={'column'}
-        justifyContent={'center'}
-        gap=".25rem"
-        maxW={'100%'}
+        justifyContent={'space-between'}
+        maxW={'54ch'}
         h={'full'}
         textOverflow={'ellipsis'}
         overflow={'hidden'}
@@ -51,34 +49,33 @@ export const PlaybackMeta: FunctionComponent<PlaybackMetaProps> = ({
           display="inline"
           border="none"
           width={'inherit'}
-          fontWeight={'semibold'}
+          fontWeight={'medium'}
+          fontSize={'1rem'}
           textOverflow={'ellipsis'}
-          noOfLines={1}
-          fontSize={'clamp(1rem, 1.2vw, 1.375rem)'}
+          noOfLines={2}
+          wordBreak={'break-all'}
         >
           {playerState?.title}
         </Heading>
 
         <Box
           as="p"
-          padding="0"
           display="inline"
+          w={'100%'}
+          padding="0"
           border="none"
           width={'inherit'}
           color="gray.400"
-          fontSize={'clamp(0.875rem, 1vw, 1.025rem)'}
-          title={playerState?.artist}
+          fontSize={'.875rem'}
           fontWeight={'normal'}
-          w={'100%'}
+          title={playerState?.artist}
           noOfLines={1}
           textOverflow={'ellipsis'}
         >
           {playerState?.artist}
-        </Box>
 
-        <Text fontSize={'12px'} color={'gray.500'}>
-          {playerState?.album}
-        </Text>
+          {playerState?.album?.length && ` : ${playerState?.album}`}
+        </Box>
       </Flex>
     </>
   )

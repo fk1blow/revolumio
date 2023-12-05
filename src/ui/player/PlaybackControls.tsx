@@ -48,7 +48,7 @@ export const PlaybackControls: FunctionComponent<PlaybackControlsProps> = ({
   const [status, setStatus] = useState('pause')
 
   return (
-    <Flex alignItems={'center'} justifyContent={'center'} gap={'.75rem'}>
+    <Flex gap={'.5rem'}>
       <Flex gap={'.25rem'}>
         {style === 'full' && (
           <IconButton

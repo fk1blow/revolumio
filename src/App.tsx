@@ -1,51 +1,78 @@
-import { ColorModeScript, Grid, GridItem } from "@chakra-ui/react"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { RouterProvider, createBrowserRouter } from "react-router-dom"
-import "./App.css"
-import { Dashboard } from "./pages/dashboard/Dashboard"
-import { useVolumioInitialization } from "./stores/volumio/hooks"
-import { Player } from "./ui/player/Player"
-import { Sidebar } from "./ui/sidebar/Sidebar"
+import { Box, ColorModeScript, Grid, GridItem } from '@chakra-ui/react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { Dashboard } from './pages/dashboard/Dashboard'
+import { usePlayerStore } from './stores/player/player.store'
+import { useVolumioInitialization } from './stores/volumio/hooks'
+import { DockedPlayer } from './ui/docked-player/DockedPlayer'
+import { FocusedPlayer } from './ui/focus-player/FocusedPlayer'
+import { Sidebar } from './ui/sidebar/Sidebar'
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Dashboard />,
-  },
-])
-
-const queryClient = new QueryClient()
+import './App.css'
 
 function App() {
   useVolumioInitialization()
 
+  const showingDockedPlayer = usePlayerStore((state) => state.isDocked)
+
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <Dashboard />,
+    },
+  ])
+
+  const queryClient = new QueryClient()
+
   return (
-    <>
-      <ColorModeScript />
+    <QueryClientProvider client={queryClient}>
+      <Box
+        position={'relative'}
+        h="100vh"
+        w="100vw"
+        bg={showingDockedPlayer ? '#0F0F10' : 'transparent'}
+      >
+        <ColorModeScript />
 
-      <QueryClientProvider client={queryClient}>
         <Grid
-          h="100vh"
-          w="100vw"
-          templateRows="3rem 1fr 8rem"
-          templateColumns="6.25rem 1fr"
+          display={showingDockedPlayer ? 'grid' : 'none'}
+          h={'100vh'}
+          w={'100vw'}
+          templateRows="2rem 1fr auto"
+          templateColumns="auto 1fr"
+          rowGap={'0'}
         >
-          <GridItem rowSpan={1} colSpan={5} maxH="3rem" />
+          <GridItem as="section" rowSpan={1} colSpan={5} maxH="3rem" h={0} />
 
-          <GridItem as="section" rowSpan={1} colSpan={1}>
+          <GridItem
+            as="section"
+            rowStart={1}
+            rowEnd={3}
+            rowSpan={3}
+            colSpan={1}
+          >
             <Sidebar />
           </GridItem>
 
-          <GridItem as="main" colSpan={4} pl="4rem" display={"flex"} minH={0}>
-            <RouterProvider router={router} />
+          <GridItem
+            rowStart={2}
+            rowEnd={3}
+            as="main"
+            colSpan={4}
+            display={'flex'}
+            minH={0}
+          >
+            {true && <RouterProvider router={router} />}
           </GridItem>
 
-          <GridItem as="footer" colSpan={5} bg="#272741">
-            <Player />
+          <GridItem as="footer" colSpan={5}>
+            <DockedPlayer />
           </GridItem>
         </Grid>
-      </QueryClientProvider>
-    </>
+
+        {!showingDockedPlayer && <FocusedPlayer />}
+      </Box>
+    </QueryClientProvider>
   )
 }
 

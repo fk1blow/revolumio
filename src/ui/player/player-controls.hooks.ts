@@ -6,14 +6,14 @@ import {
   pausePlayerCommand,
   playPlayerCommand,
 } from '../../lib/volumio/commands/command'
-import { usePlayerStore } from '../../stores/player/player.store'
+import { usePlaybackStore } from '../../stores/playback/playback.store'
 
 const volumeSyncThrottleWaitTime = 1000
 const playerStatusSyncThrottleWaitTime = 500
 const volumeStepSize = 5
 
 export const usePlayerVolume = () => {
-  const playerState = usePlayerStore((state) => state.playerState)
+  const playerState = usePlaybackStore((state) => state.playbackState)
 
   const syncedVolume = useMemo(() => playerState?.volume ?? 0, [playerState])
 
@@ -98,7 +98,7 @@ export const usePlayerVolume = () => {
 // the player state is not updated immediately after a command is sent
 // and the server response time is not consistent
 export const usePlayerStatus = () => {
-  const playerState = usePlayerStore((state) => state.playerState)
+  const playerState = usePlaybackStore((state) => state.playbackState)
 
   const syncedStatus = useMemo(
     () => (playerState?.status === undefined ? 'stop' : playerState?.status),

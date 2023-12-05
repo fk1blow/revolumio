@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const VolumioPlayerStateSchema = z.object({
+export const VolumioPlaybackStateSchema = z.object({
   status: z.enum(['play', 'pause', 'stop']),
   position: z.number(),
   title: z.string(),
@@ -28,6 +28,6 @@ export const VolumioPlayerStateSchema = z.object({
   service: z.string(),
 })
 
-export type VolumioPlayerStateSchemaInferred = z.infer<
-  typeof VolumioPlayerStateSchema
+export type VolumioPlaybackStateSchemaInferred = z.infer<
+  typeof VolumioPlaybackStateSchema
 >

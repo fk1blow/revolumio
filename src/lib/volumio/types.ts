@@ -1,14 +1,14 @@
-import { VolumioPlayerStateSchemaInferred } from './schemas/player-state-schema'
+import { VolumioPlaybackStateSchemaInferred } from './schemas/playback-state-schema'
 
-export type PlaybackStatus = Pick<VolumioPlayerStateSchemaInferred, 'status'>
+export type PlaybackStatus = Pick<VolumioPlaybackStateSchemaInferred, 'status'>
 
 export type PlaybackTrackMeta = Pick<
-  VolumioPlayerStateSchemaInferred,
+  VolumioPlaybackStateSchemaInferred,
   'title' | 'artist' | 'album' | 'albumart' | 'uri' | 'trackType'
 >
 
 export type PlabackTrackState = Pick<
-  VolumioPlayerStateSchemaInferred,
+  VolumioPlaybackStateSchemaInferred,
   | 'seek'
   | 'duration'
   | 'samplerate'

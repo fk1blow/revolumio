@@ -4,19 +4,19 @@ import {
   fetchFavoritesCommand,
   fetchStateCommand,
 } from '../../lib/volumio/commands/command'
-import { VolumioPlayerStateSchema } from '../../lib/volumio/schemas/player-state-schema'
+import { VolumioPlaybackStateSchema } from '../../lib/volumio/schemas/playback-state-schema'
 import { useFavoriteItemsStore } from '../favorites/favorites.store'
-import { usePlayerStore } from '../player/player.store'
+import { usePlaybackStore } from '../playback/playback.store'
 
 // don't really like this hook but hey, it works
 export const useVolumioInitialization = () => {
   const updateFavorites = useFavoriteItemsStore((state) => state.updateLists)
-  const updatePlayerState = usePlayerStore((state) => state.updateState)
+  const updatePlayerState = usePlaybackStore((state) => state.updateState)
 
   useEffect(() => {
     onReceiveMessage('pushState', (data) => {
       // TODO might need to catch zod errors and update the store accordingly
-      VolumioPlayerStateSchema.parse(data)
+      VolumioPlaybackStateSchema.parse(data)
       updatePlayerState(data)
     })
 

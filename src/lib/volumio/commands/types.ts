@@ -1,5 +1,5 @@
 import { BrowseLibrarySchemaInferred } from '../schemas/browse-library-schema'
-import { VolumioPlayerStateSchemaInferred } from '../schemas/player-state-schema'
+import { VolumioPlaybackStateSchemaInferred } from '../schemas/playback-state-schema'
 
 export enum ApiCommandsMap {
   GetState = 'getState',
@@ -11,7 +11,7 @@ export enum ApiCommandsMap {
 
 export interface ApiResponseMap {
   pushBrowseLibrary: BrowseLibrarySchemaInferred
-  pushState: VolumioPlayerStateSchemaInferred
+  pushState: VolumioPlaybackStateSchemaInferred
   connect: void
 }
 

@@ -23,26 +23,32 @@ export const MediaSources: FunctionComponent<MediaSourcesProps> = (_props) => {
       display="flex"
       alignItems="center"
       flexDirection="column"
-      gap={'1rem'}
+      gap={'.5rem'}
       listStyleType={'none'}
     >
       <IconButton
         aria-label="Youtube"
         variant="ghost"
         border="none"
-        fontSize={'1.5625rem'}
-        color={'gray.300'}
-        size="lg"
+        fontSize={'1.25rem'}
+        color={'#E1E2E7'}
+        h={'2.625rem'}
+        w={'2.625rem'}
+        rounded={'.75rem'}
         icon={<FaYoutube />}
+        _focus={{ outline: 'none' }}
       />
 
       <IconButton
         aria-label="Spotify"
         variant="ghost"
         border="none"
-        fontSize={'1.5625rem'}
-        color={'gray.300'}
-        size="lg"
+        fontSize={'1.25rem'}
+        color={'#E1E2E7'}
+        h={'2.625rem'}
+        w={'2.625rem'}
+        rounded={'.75rem'}
+        _focus={{ outline: 'none' }}
         icon={<FaSpotify />}
       />
 
@@ -50,9 +56,12 @@ export const MediaSources: FunctionComponent<MediaSourcesProps> = (_props) => {
         aria-label="Soundcloud"
         variant="ghost"
         border="none"
-        color={'gray.300'}
-        fontSize={'1.5625rem'}
-        size="lg"
+        color={'#E1E2E7'}
+        fontSize={'1.25rem'}
+        h={'2.625rem'}
+        w={'2.625rem'}
+        rounded={'.75rem'}
+        _focus={{ outline: 'none' }}
         icon={<FaSoundcloud />}
       />
 
@@ -60,9 +69,12 @@ export const MediaSources: FunctionComponent<MediaSourcesProps> = (_props) => {
         aria-label="Radio"
         variant="ghost"
         border="none"
-        fontSize={'1.5625rem'}
-        color={'gray.300'}
-        size="lg"
+        fontSize={'1.25rem'}
+        color={'#E1E2E7'}
+        h={'2.625rem'}
+        w={'2.625rem'}
+        rounded={'.75rem'}
+        _focus={{ outline: 'none' }}
         icon={<FaRadio />}
       />
 
@@ -71,9 +83,12 @@ export const MediaSources: FunctionComponent<MediaSourcesProps> = (_props) => {
         title="Add Media Source"
         variant="ghost"
         border="none"
-        fontSize={'1.5625rem'}
-        color={'gray.300'}
-        size="lg"
+        fontSize={'1.25rem'}
+        color={'#E1E2E7'}
+        h={'2.625rem'}
+        w={'2.625rem'}
+        rounded={'.75rem'}
+        _focus={{ outline: 'none' }}
         icon={<FaPlus />}
       />
     </Box>

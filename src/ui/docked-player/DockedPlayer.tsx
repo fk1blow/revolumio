@@ -38,7 +38,6 @@ export const DockedPlayer: FunctionComponent<DockerPlayerProps> = (_props) => {
   return (
     <Flex
       position={'relative'}
-      h={'6rem'}
       px={'2rem'}
       py={'1rem'}
       gap={isMediumScreen ? '1rem' : '.5rem'}
@@ -55,24 +54,32 @@ export const DockedPlayer: FunctionComponent<DockerPlayerProps> = (_props) => {
         <PlaybackProgress rounded={false} />
       </Box>
 
-      <Flex justifyContent={'start'} alignItems={'center'}>
-        <PlaybackControls style={playbackCtrlsStyle} size="sm" />
-      </Flex>
-
       <Flex
-        justifyContent={'center'}
+        maxW={theme.breakpoints.xl}
+        w={'full'}
         mx={'auto'}
-        flexGrow={1}
-        gap={isMediumScreen ? '1rem' : '.5rem'}
+        justify={'space-between'}
+        gap={'2rem'}
       >
-        <PlaybackMeta
-          showImage={isMediumScreen}
-          onClickImage={showFocusedPlayer}
-        />
-      </Flex>
+        <Flex justifyContent={'start'} alignItems={'center'}>
+          <PlaybackControls style={playbackCtrlsStyle} size="sm" />
+        </Flex>
 
-      <Flex gap={{ base: '1rem', lg: '2rem' }}>
-        <VolumeControls style={isXLScreen ? 'inline' : 'floating'} />
+        <Flex
+          justifyContent={'center'}
+          mx={'auto'}
+          flexGrow={1}
+          gap={isMediumScreen ? '1rem' : '.5rem'}
+        >
+          <PlaybackMeta
+            showImage={isMediumScreen}
+            onClickImage={showFocusedPlayer}
+          />
+        </Flex>
+
+        <Flex gap={{ base: '1rem', lg: '2rem' }}>
+          <VolumeControls style={isXLScreen ? 'inline' : 'floating'} />
+        </Flex>
       </Flex>
     </Flex>
   )

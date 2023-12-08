@@ -19,9 +19,8 @@ interface MediaSourcesProps {}
 export const MediaSources: FunctionComponent<MediaSourcesProps> = (_props) => {
   return (
     <Box
-      w="100%"
+      w="full"
       display="flex"
-      alignItems="center"
       flexDirection="column"
       gap={'.5rem'}
       listStyleType={'none'}
@@ -34,7 +33,7 @@ export const MediaSources: FunctionComponent<MediaSourcesProps> = (_props) => {
         color={'#E1E2E7'}
         h={'2.625rem'}
         w={'2.625rem'}
-        rounded={'.75rem'}
+        rounded={'.8125rem'}
         icon={<FaYoutube />}
         _focus={{ outline: 'none' }}
       />
@@ -47,7 +46,7 @@ export const MediaSources: FunctionComponent<MediaSourcesProps> = (_props) => {
         color={'#E1E2E7'}
         h={'2.625rem'}
         w={'2.625rem'}
-        rounded={'.75rem'}
+        rounded={'.8125rem'}
         _focus={{ outline: 'none' }}
         icon={<FaSpotify />}
       />
@@ -60,7 +59,7 @@ export const MediaSources: FunctionComponent<MediaSourcesProps> = (_props) => {
         fontSize={'1.25rem'}
         h={'2.625rem'}
         w={'2.625rem'}
-        rounded={'.75rem'}
+        rounded={'.8125rem'}
         _focus={{ outline: 'none' }}
         icon={<FaSoundcloud />}
       />
@@ -73,7 +72,7 @@ export const MediaSources: FunctionComponent<MediaSourcesProps> = (_props) => {
         color={'#E1E2E7'}
         h={'2.625rem'}
         w={'2.625rem'}
-        rounded={'.75rem'}
+        rounded={'.8125rem'}
         _focus={{ outline: 'none' }}
         icon={<FaRadio />}
       />
@@ -87,7 +86,7 @@ export const MediaSources: FunctionComponent<MediaSourcesProps> = (_props) => {
         color={'#E1E2E7'}
         h={'2.625rem'}
         w={'2.625rem'}
-        rounded={'.75rem'}
+        rounded={'.8125rem'}
         _focus={{ outline: 'none' }}
         icon={<FaPlus />}
       />

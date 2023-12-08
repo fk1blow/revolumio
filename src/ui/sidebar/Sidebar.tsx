@@ -1,86 +1,72 @@
-import { Flex, IconButton } from '@chakra-ui/react'
-import { FunctionComponent } from 'react'
-import { FaGear, FaListUl, FaMagnifyingGlass, FaStar } from 'react-icons/fa6'
-import { MediaSources } from './MediaSources'
+import { Flex } from '@chakra-ui/react'
+import { FunctionComponent, useMemo } from 'react'
+import {
+  FaGear,
+  FaListUl,
+  FaMagnifyingGlass,
+  FaPlus,
+  FaPodcast,
+  FaRadio,
+  FaSoundcloud,
+  FaSpotify,
+  FaStar,
+  FaYoutube,
+} from 'react-icons/fa6'
+import { useMediaQuery } from 'react-responsive'
+import { breakpoints } from '../../theme-customization'
+import { SidebarButton } from './SidebarButton'
 
 export const Sidebar: FunctionComponent<unknown> = () => {
+  const isSidebarLarge = useMediaQuery({ minWidth: breakpoints['2xl'] })
+
+  const sidebarWidth = useMemo(
+    () => (isSidebarLarge ? '16rem' : 'auto'),
+    [isSidebarLarge]
+  )
+
   return (
     <Flex
+      as="nav"
       direction={'column'}
       align={'center'}
-      px={'.75rem'}
+      px={isSidebarLarge ? '1.125rem' : '1.125rem'}
       pt={'2rem'}
       h={'full'}
-      w={'5rem'}
+      minW={sidebarWidth}
       gap={'.5rem'}
       justify={'space-between'}
+      alignItems={'center'}
       bg={'#1F1F23'}
     >
-      <Flex direction={'column'} gap={'.5rem'} flexGrow={1}>
-        <IconButton
-          aria-label="Home"
-          variant="ghost"
-          border="none"
-          fontSize={'1rem'}
-          color={'#E1E2E7'}
-          h={'2.625rem'}
-          w={'2.625rem'}
-          rounded={'.75rem'}
-          icon={<FaMagnifyingGlass />}
-          _focus={{ outline: 'none' }}
-        />
-
-        <IconButton
-          aria-label="Home"
-          isActive
-          variant="ghost"
-          border="none"
-          fontSize={'1.25rem'}
-          color={'#E1E2E7'}
-          h={'2.625rem'}
-          w={'2.625rem'}
-          rounded={'.75rem'}
-          icon={<FaStar />}
-          _focus={{ outline: 'none' }}
-          _active={{
-            bg: '#6A4477',
-          }}
-        />
-
-        <IconButton
-          aria-label="Home"
-          variant="ghost"
-          border="none"
-          fontSize={'1.25rem'}
-          color={'#E1E2E7'}
-          h={'2.625rem'}
-          w={'2.625rem'}
-          rounded={'.75rem'}
-          icon={<FaListUl />}
-          _focus={{ outline: 'none' }}
-        />
+      <Flex direction={'column'} gap={'.25rem'} flexGrow={1} w={'full'}>
+        <SidebarButton label="Search" icon={<FaMagnifyingGlass />} />
+        <SidebarButton active label="Favorites" icon={<FaStar />} />
+        <SidebarButton label="Queue" icon={<FaListUl />} />
       </Flex>
 
-      <MediaSources />
+      {/* <MediaSources /> */}
+      <Flex
+        w="full"
+        flexDirection="column"
+        gap={'.25rem'}
+        listStyleType={'none'}
+      >
+        <SidebarButton label="Youtube" icon={<FaYoutube />} />
+        <SidebarButton label="Spotify" icon={<FaSpotify />} />
+        <SidebarButton label="Soundcloud" icon={<FaSoundcloud />} />
+        <SidebarButton label="Radio" icon={<FaRadio />} />
+        <SidebarButton label="Podcasts" icon={<FaPodcast />} />
+        <SidebarButton label="Add Media" icon={<FaPlus />} />
+      </Flex>
 
       <Flex
         direction={'column'}
         flexGrow={1}
         justifyContent={'end'}
         pb={'2rem'}
+        w={'full'}
       >
-        <IconButton
-          aria-label="Home"
-          variant="ghost"
-          border="none"
-          fontSize={'1.25rem'}
-          color={'#E1E2E7'}
-          h={'2.625rem'}
-          w={'2.625rem'}
-          rounded={'.75rem'}
-          _focus={{ outline: 'none' }}
-          icon={<FaGear />}
-        />
+        <SidebarButton label="Settings" icon={<FaGear />} />
       </Flex>
     </Flex>
   )

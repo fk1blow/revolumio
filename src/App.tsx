@@ -8,7 +8,9 @@ import { DockedPlayer } from './ui/docked-player/DockedPlayer'
 import { FocusedPlayer } from './ui/focus-player/FocusedPlayer'
 import { Sidebar } from './ui/sidebar/Sidebar'
 
+import { useMediaQuery } from 'react-responsive'
 import './App.css'
+import { breakpoints } from './theme-customization'
 
 function App() {
   useVolumioInitialization()
@@ -23,6 +25,8 @@ function App() {
   ])
 
   const queryClient = new QueryClient()
+
+  const isSidebarShown = useMediaQuery({ minWidth: breakpoints.md })
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -44,15 +48,17 @@ function App() {
         >
           <GridItem as="section" rowSpan={1} colSpan={5} maxH="3rem" h={0} />
 
-          <GridItem
-            as="section"
-            rowStart={1}
-            rowEnd={3}
-            rowSpan={3}
-            colSpan={1}
-          >
-            <Sidebar />
-          </GridItem>
+          {isSidebarShown && (
+            <GridItem
+              as="section"
+              rowStart={1}
+              rowEnd={3}
+              rowSpan={3}
+              colSpan={1}
+            >
+              <Sidebar />
+            </GridItem>
+          )}
 
           <GridItem
             rowStart={2}

@@ -1,5 +1,6 @@
 import { Box, Flex, Heading, Image } from '@chakra-ui/react'
 import { FunctionComponent } from 'react'
+import { FaCircle } from 'react-icons/fa6'
 import { usePlaybackStore } from '../../stores/playback/playback.store'
 interface PlaybackMetaProps {
   showImage: boolean
@@ -19,7 +20,7 @@ export const PlaybackMeta: FunctionComponent<PlaybackMetaProps> = ({
           <Image
             src={playerState?.albumart ?? 'https://via.placeholder.com/150'}
             maxH="100%"
-            h={'68px'}
+            h={'56px'}
             rounded={'.5rem'}
             aspectRatio={16 / 10}
             fit={'cover'}
@@ -27,7 +28,7 @@ export const PlaybackMeta: FunctionComponent<PlaybackMetaProps> = ({
             _hover={{
               cursor: 'pointer',
               opacity: 0.8,
-              filter: 'blur(2px)',
+              filter: 'blur(1px)',
               transition: 'all .2s ease',
             }}
           />
@@ -59,24 +60,48 @@ export const PlaybackMeta: FunctionComponent<PlaybackMetaProps> = ({
           {playerState?.title}
         </Heading>
 
-        <Box
-          as="p"
-          display="inline"
-          w={'100%'}
-          padding="0"
-          border="none"
-          width={'inherit'}
-          color="gray.400"
-          fontSize={'.875rem'}
-          fontWeight={'normal'}
-          title={playerState?.artist}
-          noOfLines={1}
-          textOverflow={'ellipsis'}
-        >
-          {playerState?.artist}
+        <Flex align={'center'} gap={'.35rem'}>
+          <Box
+            as="span"
+            display="inline"
+            w={'100%'}
+            padding="0"
+            border="none"
+            width={'inherit'}
+            color="gray.400"
+            fontSize={'.9375rem'}
+            fontWeight={'normal'}
+            title={playerState?.artist}
+            noOfLines={1}
+            textOverflow={'ellipsis'}
+          >
+            {playerState?.artist}
+          </Box>
 
-          {playerState?.album?.length && ` : ${playerState?.album}`}
-        </Box>
+          {playerState?.album?.length && (
+            <>
+              <Box fontSize={'.2rem'} color={'gray.500'}>
+                <FaCircle />
+              </Box>
+
+              <Box
+                as="span"
+                display="inline"
+                w={'100%'}
+                padding="0"
+                border="none"
+                width={'inherit'}
+                color="gray.400"
+                fontSize={'.9375rem'}
+                fontWeight={'normal'}
+                title={playerState?.artist}
+                textOverflow={'ellipsis'}
+              >
+                {playerState?.album}
+              </Box>
+            </>
+          )}
+        </Flex>
       </Flex>
     </>
   )
